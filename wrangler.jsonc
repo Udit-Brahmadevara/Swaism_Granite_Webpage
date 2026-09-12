@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  // The Swasim Granite site: static files in public/, served by Cloudflare
+  // Workers static assets. There is no Worker script.
+  //
+  // The top level is STAGING, so a bare `wrangler deploy` can never touch the
+  // live domain. Production is the explicit `--env production`.
+  //
+  //   npm run deploy:staging      staging.swasimgranite.com (client review)
+  //   npm run deploy:production   www.swasimgranite.com — launch day onwards
+
+  "name": "swasim-staging",
+  "compatibility_date": "2026-09-01",
+
+  "assets": {
+    "directory": "./public",
+    // Missing paths get public/404.html with a 404 status, at any depth.
+    "not_found_handling": "404-page",
+    // /about serves about.html; /about.html redirects to /about. The site's
+    // links, canonicals and service worker are all written for this.
+    "html_handling": "auto-trailing-slash"
+  },
+
+  // No *.workers.dev or preview URLs: the only way in is the custom domain,
+  // which is what Cloudflare Access protects.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "staging.swasimgranite.com", "custom_domain": true }
+  ],
+
+  "env": {
+    "production": {
+      "name": "swasim-site",
+      "workers_dev": false,
+      "preview_urls": false,
+      // Both hostnames must be released by the holding-page Worker before the
+      // first production deploy. A redirect rule sends the bare domain to www.
+      "routes": [
+        { "pattern": "www.swasimgranite.com", "custom_domain": true },
+        { "pattern": "swasimgranite.com", "custom_domain": true }
+      ]
+    }
+  }
+}

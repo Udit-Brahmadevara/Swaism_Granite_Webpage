@@ -1,0 +1,64 @@
+# Fonts never change in place — a new weight is a new file — so a year is safe.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photographs, logos, the map and the share card ARE regenerated in place by the
+# tools/ scripts (same filename, new bytes), so they must not be `immutable`: a
+# browser would keep the old copy for a year, and the service worker's refetch
+# after a release would be answered from that same stale HTTP cache. A day, then
+# revalidate in the background. Repeat visits are served by the worker anyway.
+/assets/granite/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/assets/monuments/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/assets/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/assets/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/favicon.ico
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Code and styles: revalidate so a deploy is picked up, but serve from cache
+# while that happens.
+/assets/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# The worker must never be cached, or a release can never roll out.
+/sw.js
+  Cache-Control: no-cache
+
+# robots.txt and the sitemap change with the content, so they must revalidate.
+/robots.txt
+  Cache-Control: public, max-age=0, must-revalidate
+/sitemap.xml
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Staging is for client review: keep it out of search results. (Cloudflare
+# Access is what actually keeps it private; this covers any gap in that.)
+https://staging.swasimgranite.com/*
+  X-Robots-Tag: noindex, nofollow
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Force HTTPS for two years, including subdomains. This header only protects a
+  # browser that has already visited over HTTPS — the host's own HTTP->HTTPS
+  # redirect must also be on. On Cloudflare: SSL/TLS > Edge Certificates >
+  # Always Use HTTPS.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+
+  # This site loads no third-party scripts, frames or stylesheets, so the policy
+  # can simply say so. No 'unsafe-inline' anywhere: the JSON-LD block is data,
+  # which CSP does not apply to, and inline style attributes are blocked — which
+  # is why every colour lives in site.css. `npm run check` enforces both.
+  #
+  # NOTE: when FORM_ENDPOINT in assets/js/pages/contact.js is pointed at a
+  # handler (Formspree, a Pages Function, an API), that origin must be added to
+  # connect-src here or the submission will be blocked with no visible error.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  X-Frame-Options: DENY

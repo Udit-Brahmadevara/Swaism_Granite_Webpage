@@ -1,0 +1,21 @@
+{
+  "name": "swasim-granite",
+  "private": true,
+  "description": "Static marketing site for Swasim Granite, Hosur. Publish directory: public/. No runtime build step.",
+  "scripts": {
+    "build": "python3 tools/build-images.py && python3 tools/bake-map.py && python3 tools/build-share-card.py && python3 tools/pages.py && node tools/bump-sw.mjs && node tools/check.mjs",
+    "pages": "python3 tools/pages.py && node tools/bump-sw.mjs && node tools/check.mjs",
+    "map": "python3 tools/bake-map.py && node tools/bump-sw.mjs",
+    "images": "python3 tools/build-images.py && node tools/bump-sw.mjs",
+    "bump": "node tools/bump-sw.mjs",
+    "check": "node tools/check.mjs",
+    "serve": "node tools/serve.mjs",
+    "share": "python3 tools/build-share-card.py && node tools/bump-sw.mjs",
+    "verify": "node tools/verify.mjs",
+    "deploy:staging": "npm run check && wrangler deploy --env=\"\"",
+    "deploy:production": "npm run check && wrangler deploy --env production"
+  },
+  "devDependencies": {
+    "wrangler": "^4.131.1"
+  }
+}

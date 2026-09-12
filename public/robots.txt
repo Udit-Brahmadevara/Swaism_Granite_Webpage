@@ -1,0 +1,5 @@
+# Swasim Granite
+User-agent: *
+Allow: /
+
+Sitemap: https://www.swasimgranite.com/sitemap.xml
