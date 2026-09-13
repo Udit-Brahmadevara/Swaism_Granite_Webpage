@@ -1,8 +1,9 @@
-/** About: company figures, values, the in-house journey and the export map. */
-import { STATS, VALUES, JOURNEY, FACILITY } from '../data.js';
-import { esc, qs, mount } from '../core/dom.js';
+/** About: company figures, values, plant capabilities and the export map. */
+import { STATS, VALUES, CAPABILITIES, FACILITY } from '../data.js';
+import { esc, qs, qsa, mount } from '../core/dom.js';
 import { createCarousel } from '../core/carousel.js';
-import { statList, journeySteps, valueCards } from '../components/cards.js';
+import { reveal } from '../core/reveal.js';
+import { statList, productCards, valueCards } from '../components/cards.js';
 import { initWorldMap } from '../components/world-map.js';
 import '../components/chrome.js';
 
@@ -10,7 +11,8 @@ const FACILITY_ROTATE_MS = 5200;
 
 mount('[data-stats]',   statList(STATS, { tone: 'light' }));
 mount('[data-values]',  valueCards(VALUES));
-mount('[data-journey]', journeySteps(JOURNEY));
+mount('[data-capabilities]', productCards(CAPABILITIES));
+reveal(qsa('[data-capabilities] > *'));
 
 const plant = qs('[data-plant]');
 if (plant) {

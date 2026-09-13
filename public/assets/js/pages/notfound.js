@@ -11,9 +11,9 @@ import { NAV } from '../components/chrome.js';
 // Four, deliberately: they fill one row cleanly, and a lost visitor scanning
 // for a way back is not helped by being offered everything at once.
 const BLURB = {
-  catalogue:    'Every granite and marble variety we cut, with full specifications.',
+  catalogue:    'Every granite and marble variety we cut, each with a full-slab view.',
   'what-we-do': 'Blocks, slabs, tiles, monuments and customised work.',
-  contact:      'Send volumes, thickness and finish — quote back within one working day.',
+  contact:      'Send volumes, thickness and finish, and get a quote back within one working day.',
   about:        'The plant at Hosur, and the markets we ship to.',
 };
 

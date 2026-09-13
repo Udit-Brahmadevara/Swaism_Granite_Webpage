@@ -29,7 +29,7 @@ public/                   the publish directory; the only thing the host sees
   favicon.ico  apple-touch-icon.png
   assets/
     css/site.css          one stylesheet, sectioned; tokens at the top
-    js/data.js            ALL site content: stones, specs, markets, articles
+    js/data.js            ALL site content: stones, markets, articles
     js/core/              pure helpers: dom, carousel, service-worker registration
     js/components/        chrome (header, footer, NAV), cards, lightbox, world map
     js/pages/             one thin controller per page
@@ -55,7 +55,7 @@ wrangler.jsonc            Cloudflare deploy config: staging + production (see "D
    files are regenerated in full by `npm run pages`, so an edit made directly to
    one is silently lost the next time anyone runs it. Each file says so in its
    `<head>`.
-2. **Content lives in `public/assets/js/data.js`.** Stone specs, markets,
+2. **Content lives in `public/assets/js/data.js`.** Stones, markets,
    articles and contact details are defined once and rendered by the page
    controllers.
 3. **Style lives in `public/assets/css/site.css`, driven by the `:root` tokens.**
@@ -227,56 +227,42 @@ What does the work:
 
 ## Colour
 
-Two brand surfaces, both defined as tokens at the top of `site.css`:
+Every page's masthead (the striped band at the top) takes one of the logo's four
+colours, and the four repeat in menu order:
 
-- **`--brand-gradient`** — quarry green. Used only by the **landing page hero**.
-- **`--brand-gradient-band`** — the logo's orange, a shade deeper than the mark
-  itself and almost flat. Used by the **masthead on every other page**.
+| Page | Masthead | Class | Text |
+|---|---|---|---|
+| `/` | green, the hero (`--brand-gradient`) | `.hero` | cream, gold accents |
+| `/about` | gold, from the G | base `.masthead` | ink, green accents |
+| `/catalogue` | blue | `.masthead--blue` | cream |
+| `/what-we-do` | red | `.masthead--red` | cream |
+| `/contact` | green | `.masthead--green` | cream, gold accents |
+| `/privacy` | gold | base `.masthead` | ink, green accents |
+| `/404` | blue | `.masthead--blue` | cream |
+| `/articles`, `/brochure`, `/testimonials` (hidden) | red, green, gold | | |
 
-The mark's exact orange is `#E09D08` (kept as `--logo-orange` for reference).
-Cream text scores **2.2:1** on that colour and fails WCAG, while ink scores
-**7.3:1** — so masthead copy runs dark on the orange pages, the same pairing the
-gold CTA buttons already use. Accents invert with it: the eyebrow and active tab
-switch to deep quarry green, since gold-on-orange disappears.
+To change a page's colour, change the modifier on its `<section class="masthead">`
+in `tools/pages.py` and run `npm run pages`.
 
-Masthead text is deliberately **solid, never translucent** — at this depth of
-amber, ink at 88% opacity measures 4.05:1 and misses the 4.5:1 body threshold.
-Measured result: body/headline/chips **4.67:1**, eyebrow **3.49:1**, active tab
-**9.43:1**. If you take the orange darker still, dark text stops passing and the
-band needs to go deep enough (around `#9D6E06` or below) to flip back to cream.
+The colours are sampled from the logo: green `#134932`, gold `#E09D08` (the G,
+kept as `--logo-orange`), blue `#1B4AA8` and red `#C61E1D` (the bars). The bands
+(`--brand-gradient-band`, `--band-green`, `--band-blue`, `--band-red`) sit close
+to those, a shade deeper where the copy needs it. Each ground dictates its text:
 
-Small labels use `--muted` (`#6f6a5e`, 5.1:1 on the paper background). The
-keyboard focus ring is `--focus`: deep green on light grounds, gold on dark
-ones, cream on saffron — at least 3:1 everywhere.
+- **Gold** `#CC9008` to `#DDA416`: ink copy, 6.2:1 at the darkest stop, with deep
+  green accents (4.6:1). Cream fails here (2.6:1), so copy runs dark.
+- **Blue** `#163E92` to `#2253B4`: cream copy at 94% (6.1:1 or better). Gold
+  would measure 2.9 to 4.0:1, so accents are cream.
+- **Red** `#A8191A` to `#BD2220`: cream at 94% (5.2:1 or better). Gold drops to
+  2.5:1, so accents are cream.
+- **Green** `#0A3A22` to `#0F4C2E`: cream at 94% (8.6:1 or better), gold accents
+  (5.2:1 at the deep end, where the eyebrow sits).
 
-### Masthead comparison (temporary — needs a decision)
-
-Three treatments are live so they can be judged against each other:
-
-| Page | Treatment | Text |
-|---|---|---|
-| `/` | quarry green hero | cream |
-| `/about`, `/privacy` | deep navy — `.masthead--navy` | cream, gold accents |
-| `/what-we-do` | deep India-flag saffron — `.masthead--saffron` | cream, cream accents |
-| `/404` | near-black — `.masthead--ink` | cream, gold accents |
-| everything else | the house orange (base `.masthead`) | ink, green accents |
-
-Each ground dictates its own text colour; they are not interchangeable:
-
-- **Orange** `#C08606` — ink copy (4.67:1). Cream fails at 2.2:1.
-- **Saffron** `#8C541C` — the flag's `#FF9933` at ~55%. Cream copy at 94%
-  (4.61:1); at the shared 72% it drops to 3.55:1 and misses AA. Gold accents
-  measure under 2.5:1 on saffron at *every* depth — same hue family — so accents
-  are cream here, not gold.
-- **Navy** `#16243D` — cream at 14.6:1, gold accents at 6.3:1.
-- **Black** `#191C1E` — cream at 72% (8.8:1), gold accents.
-
-Saffron has a dead zone worth knowing about: between roughly 65% and 70% of the
-flag colour, neither ink nor cream reaches 4.5:1. Pick a side of it.
-
-**To settle on one:** remove the modifier classes from the page bodies in
-`tools/pages.py`, delete their rule blocks in `site.css`, and run
-`npm run pages`. The base `.masthead` needs no change.
+Masthead copy is solid or near-solid, never faint: at 72% cream, the blue and
+red bands miss the 4.5:1 body threshold. Small labels use `--muted` (`#6f6a5e`,
+5.1:1 on the paper background). The keyboard focus ring is `--focus`: deep green
+on light grounds and the gold masthead, gold on green, cream on blue and red, at
+least 3:1 everywhere.
 
 ## Mobile
 
@@ -291,7 +277,7 @@ page controllers.
 | Hero is a full-bleed photo with copy overlaid at the bottom | `.hero__text` is *repositioned* over the carousel, not duplicated |
 | Tightened hero sentence on phones | `.lede--mobile`, swapped by media query |
 | Founding stats sit below the photo, not over it | `.hero__stats` |
-| "Featured lots" scroll sideways | `.stone-grid` becomes a scroll-snapping rail |
+| "Featured lots" scroll sideways | `.marquee`: every stone in one continuously sliding row, at every width |
 | Catalogue search | `.search` + `[data-search]`; filters compose with the type chips |
 | Catalogue browses two-up | `.thumb-grid` / `.gallery` at two columns |
 | Tap a stone → its detail | detail scrolls back into view (`scroll-margin-top` clears the sticky header) |
@@ -313,18 +299,22 @@ every width and only the supporting sentence switches.
 | Task | Where |
 |---|---|
 | Change page copy or structure | `tools/pages.py`, then `npm run pages` |
-| Change a price, spec or description | `public/assets/js/data.js` → `GRANITES` |
+| Change a stone's facts or photo | `public/assets/js/data.js` → `GRANITES` (`facts` holds origin, found in, applications and properties). To replace a photo, overwrite its master in `source-assets/granite/` and run `npm run images`: every page uses the one file, and the headers and service worker make browsers pick it up on the next load. A stone with `img: null` is held back until its photo exists |
 | Change the home carousel | `data.js` → `HERO`: a photo slide is `{ img, name, kicker, alt }` (photo into `source-assets/hero/`, then `npm run images`); a catalogue stone is `{ stone: 'viscount-white' }`. Run `npm run pages` if the first slide changes |
 | Add a stone | Master into `source-assets/granite/`, a line in `GRANITE_NAMES` in `tools/build-images.py`, `npm run images`, then append to `GRANITES` |
 | Give a stone multiple photos | Add `images: [{ src, alt }, …]` to it — arrows, dots and swipe appear automatically |
 | Add monument photos | Masters into `source-assets/monuments/`, `npm run images`, bump the count in `MONUMENTS` |
 | Publish testimonials | `data.js` → `TESTIMONIALS`; an entry renders only without `sample: true` |
-| Change phone, email or address | `data.js` → `COMPANY`, plus the JSON-LD and privacy text in `tools/pages.py` |
+| Change phone, email or address | `data.js` → `COMPANY`, the footer address in `chrome.js`, and in `tools/pages.py` the contact-page locator (place, region, directions link) and description, the JSON-LD and the privacy text |
 | Re-theme colours or spacing | `site.css` → `:root` tokens |
 | Change a repeated card's markup | `public/assets/js/components/cards.js` |
 | Add a nav item | `public/assets/js/components/chrome.js` → `NAV` (`/page`, no `.html`) |
+| Hide or publish a page | `HIDDEN` in `tools/pages.py` (noindex, out of the sitemap) and `hidden: true` on its `NAV` entry in `chrome.js`, then `npm run pages`. Articles, Brochure and Testimonials are hidden for now |
 | Add a page | A `PAGES[...]` entry in `tools/pages.py`, a controller in `js/pages/`, a `NAV` entry, `npm run pages` |
 | Change the product list | `data.js` → `PRODUCTS` (`wide: true` spans the row) — and the "Five ways" heading in `tools/pages.py` |
+| Change the About page equipment list | `data.js` → `CAPABILITIES` (Infrastructure & Capabilities section). To give a machine a photo: master into `source-assets/infrastructure/`, `npm run images`, then add `img: '/assets/infrastructure/<name>.jpg'` and `alt` to its entry, plus `credit: { by, license, href }` if the photo is openly licensed rather than the client's own |
+| Add or change the footer icon links | `data.js` → `SOCIAL` (an entry without an `href` shows its icon but is not clickable), and keep the profile URLs in step with `sameAs` in the JSON-LD in `tools/pages.py` |
+| Change the affiliations | `data.js` → `AFFILIATIONS` (text tiles; confirm each `role` with the client) |
 | Add or replace a facility photo | Master into `source-assets/facility/`, `npm run images`, then list it in `FACILITY` in `data.js` (caption and alt required; the first entry shows first) |
 | Connect the contact form | `FORM_ENDPOINT` in `js/pages/contact.js`, **and** its origin in `connect-src` in `_headers` |
 
@@ -356,13 +346,15 @@ Done, and verified by `npm run check` / `npm run verify` where it can be:
    address. For delivery that asks nothing of the buyer, set `FORM_ENDPOINT`
    and add its origin to `connect-src`, then rewrite the privacy policy's
    "How it reaches us" paragraph to name the provider.
-3. **Masthead colour** — pick one of the treatments above.
-4. **Client sign-off on factual claims:** ISO 9001:2015, CE-marked slabs,
-   45,000 sqm monthly capacity, the "since" year for each export market (the
+3. **Masthead colours**: settled, one logo colour per page (see "Colour").
+4. **Client sign-off on factual claims:** the affiliation roles in
+   `AFFILIATIONS` (CAPEXIL member, DGFT-registered exporter, STONA participant)
+   and the use of each body's logo, the "since" year for each export market (the
    Middle East has none yet, and its countries — UAE, Saudi Arabia, Qatar, Oman,
-   Kuwait — are an assumption), every
-   stone specification, the plant equipment described in `PROCESS`, the hero's
-   lot and quarry numbers, and the plant coordinates on the contact page.
+   Kuwait — are an assumption), Emerald Green's origin, the plant equipment described in
+   `PROCESS`, the hero's lot and quarry numbers, and the plant address on
+   the contact page (it shows no map coordinates until the client supplies the plant's pin). The Emerald Green and Kuppam Green photos are other
+   suppliers' watermarked images: replace them with the client's own slab photos.
 5. **Testimonials** — the six entries in `TESTIMONIALS` are invented design copy
    and carry `sample: true`, so none of them render; the page shows an honest
    "we're gathering these" state. Add real, approved quotes without the flag.
