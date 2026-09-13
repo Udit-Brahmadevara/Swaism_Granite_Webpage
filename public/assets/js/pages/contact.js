@@ -5,13 +5,12 @@
  * (Formspree, Netlify Forms, a custom API). Until then the form validates and
  * opens WhatsApp with the enquiry typed out, for the buyer to send.
  */
-import { GRANITES, FINISHES, COMPANY, OFFICE_HOURS } from '../data.js';
+import { GRANITES, FINISHES, COMPANY, OFFICE_HOURS, WHATSAPP } from '../data.js';
 import { esc, qs, mount } from '../core/dom.js';
 import { defRows } from '../components/cards.js';
 import '../components/chrome.js';
 
 const FORM_ENDPOINT = null;   // e.g. 'https://formspree.io/f/xxxxxxx'
-const WHATSAPP = `https://wa.me/${COMPANY.phoneHref.replace('+', '')}`;
 
 mount('[data-contact-lines]', defRows([
   ['Managing Director', COMPANY.md],
@@ -67,7 +66,7 @@ const showNote = (msg, isError = false) => {
    rejected is how it learns to get past the check. */
 const MIN_FILL_MS = 3000;
 const rendered = Date.now();
-const SENT = 'Inquiry received — our export desk will respond within one working day.';
+const SENT = 'Inquiry received. Our export desk will respond within one working day.';
 
 form?.addEventListener('submit', async e => {
   e.preventDefault();
@@ -110,7 +109,7 @@ form?.addEventListener('submit', async e => {
     ['Finish', data.finish],
   ].filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
   const text = [
-    `*B2B enquiry — ${stone ? stone.name : 'Swasim Granite'}*`, '',
+    `*B2B enquiry: ${stone ? stone.name : 'Swasim Granite'}*`, '',
     ...fields, '', 'Requirement:', data.requirement || '',
   ].join('\n');
   const url = `${WHATSAPP}?text=${encodeURIComponent(text)}`;
@@ -120,6 +119,6 @@ form?.addEventListener('submit', async e => {
   const win = open(url, '_blank');
   if (win) win.opener = null;
   else location.href = url;
-  showNote(`Opening WhatsApp with your inquiry — press send there to reach us. `
+  showNote(`Opening WhatsApp with your inquiry. Press send there to reach us. `
     + `No WhatsApp? Email ${COMPANY.email}.`);
 });

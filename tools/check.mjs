@@ -133,8 +133,9 @@ if (existsSync(join(SITE, 'sitemap.xml'))) {
     .map(m => new URL(m[1]).pathname));         // compare paths, not full URLs
   for (const p of pages) {
     const path = p === 'index.html' ? '/' : `/${p.replace(/\.html$/, '')}`;
-    if (p === '404.html') {
-      if (listed.has(path)) fail('sitemap', '404 must not be offered to crawlers');
+    // noindex pages (the 404, and any page HIDDEN in pages.py) stay out of it
+    if (/<meta name="robots" content="noindex">/.test(read(p))) {
+      if (listed.has(path)) fail('sitemap', `${path} is noindex and must not be offered to crawlers`);
     } else if (!listed.has(path)) {
       fail('sitemap', `${path} is not listed — regenerate with npm run pages`);
     }
@@ -155,7 +156,7 @@ for (const p of pages) {
 }
 
 /* 8 — every photograph must have a WebP twin and a grid-size copy ---------- */
-for (const dir of ['assets/granite', 'assets/monuments', 'assets/facility', 'assets/hero'].filter(d => existsSync(join(SITE, d)))) {
+for (const dir of ['assets/granite', 'assets/monuments', 'assets/facility', 'assets/hero', 'assets/infrastructure'].filter(d => existsSync(join(SITE, d)))) {
   for (const f of readdirSync(join(SITE, dir)).filter(f => f.endsWith('.jpg'))) {
     const stem = f.replace(/\.jpg$/, '');
     if (!existsSync(join(SITE, dir, `${stem}.webp`)))

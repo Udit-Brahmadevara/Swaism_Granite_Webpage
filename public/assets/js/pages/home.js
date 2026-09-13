@@ -1,18 +1,30 @@
 /** Home: rotating hero of photographs, then a slice of the collection. */
-import { HERO, GRANITES, STATS, HOME_BADGES, TRUST_STRIP } from '../data.js';
-import { esc, qs, mount } from '../core/dom.js';
+import { HERO, GRANITES, STATS, HOME_BADGES, AFFILIATIONS } from '../data.js';
+import { esc, qs, qsa, mount } from '../core/dom.js';
 import { createCarousel } from '../core/carousel.js';
-import { badgeList, statList, stoneCards } from '../components/cards.js';
+import { reveal } from '../core/reveal.js';
+import { badgeList, statList, stoneCards, affiliationCards } from '../components/cards.js';
 import '../components/chrome.js';
 
 const ROTATE_MS = 4200;
-const FEATURED_COUNT = 6;
+const SECONDS_PER_STONE = 6.5;   // marquee pace, held constant as stones are added
 
 mount('[data-badges]',     badgeList(HOME_BADGES));
 mount('[data-hero-stats]', badgeList(HOME_BADGES));
 mount('[data-stats]',      statList(STATS));
-mount('[data-featured]',   stoneCards(GRANITES.slice(0, FEATURED_COUNT)));
-mount('[data-trust]',      TRUST_STRIP.map(t => `<li>${esc(t)}</li>`).join(''));
+mount('[data-affiliations]', affiliationCards(AFFILIATIONS));
+reveal(qsa('[data-affiliations] > *'));
+
+/* The collection marquee: every stone, then the same set again, so sliding the
+   track left by half (see site.css) loops without a seam. The copy is hidden
+   from screen readers and the tab order. */
+mount('[data-featured]', `
+  <div class="marquee__track">
+    <div class="marquee__group">${stoneCards(GRANITES)}</div>
+    <div class="marquee__group" aria-hidden="true">${stoneCards(GRANITES, { hidden: true })}</div>
+  </div>`);
+const track = qs('.marquee__track');
+if (track) track.style.animationDuration = `${GRANITES.length * SECONDS_PER_STONE}s`;
 
 /* Every slide is { img, name, kicker, alt } — HERO in data.js resolves stone
    slides to that shape, so nothing here needs to know which kind a slide is. */

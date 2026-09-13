@@ -4,23 +4,25 @@
  * Deep-linkable — /catalogue#tan-brown opens that stone, and because a
  * hash-only change never reloads the document, hashchange is handled too.
  */
-import { GRANITES, FINISHES, MONUMENTS, stoneImages } from '../data.js';
+import { GRANITES, MONUMENTS, stoneImages } from '../data.js';
 import { esc, qs, qsa, onClick, setPressed } from '../core/dom.js';
 import { createCarousel } from '../core/carousel.js';
-import { stoneThumbs, defRows, chips, picture } from '../components/cards.js';
+import { stoneThumbs, chips, picture, defRows } from '../components/cards.js';
 import { initLightbox } from '../components/lightbox.js';
 import '../components/chrome.js';
 
 const FADE_MS = 170;
 const GALLERY_ROTATE_MS = 6000;
 const TYPES = ['All', 'Exotic', 'Premium', 'Commercial'];
+/* The rows of a stone's `facts` (data.js), in display order. */
+const FACTS = [['origin', 'Origin'], ['foundIn', 'Found in'], ['applications', 'Applications'], ['properties', 'Properties']];
 
 const detail    = qs('[data-detail]');
 const thumbHost = qs('[data-thumbs]');
 const filterBar = qs('[data-filters]');
 const search    = qs('[data-search]');
 
-const state = { filter: 'All', finish: FINISHES[0], query: '', selected: GRANITES[0] };
+const state = { filter: 'All', query: '', selected: GRANITES[0] };
 
 const fromHash = location.hash.replace('#', '');
 if (fromHash) state.selected = GRANITES.find(g => g.id === fromHash) || state.selected;
@@ -32,7 +34,8 @@ const visibleStones = () => {
   const q = state.query.trim().toLowerCase();
   return GRANITES.filter(g =>
     (state.filter === 'All' || g.type === state.filter) &&
-    (!q || [g.name, g.type, g.origin, g.tagline].join(' ').toLowerCase().includes(q)));
+    (!q || [g.name, g.type, g.origin, g.tagline, g.facts?.origin, g.facts?.foundIn]
+      .filter(Boolean).join(' ').toLowerCase().includes(q)));
 };
 
 function renderDetail() {
@@ -62,37 +65,17 @@ function renderDetail() {
         <span class="badge-type badge-type--${esc(g.type.toLowerCase())}">${esc(g.type)}</span>
         <span class="badge-type badge-origin">${esc(g.origin)}</span>
       </div>
-      <div class="stone-detail__format">slab format 320 × 190 cm</div>
     </div>
     <div class="stone-detail__body">
       <h2>${esc(g.name)}</h2>
       <div class="stone-detail__tagline">${esc(g.tagline)}</div>
-      <p>${esc(g.description)}</p>
-
-      <div class="label stone-detail__label">Available finishes</div>
-      <div class="chips stone-detail__finishes" data-finishes>
-        ${chips(FINISHES, { active: state.finish, variant: 'chip--finish', attr: 'data-finish' })}
-      </div>
-
-      <dl class="hairline stone-detail__specs">
-        ${defRows([
-          ['Compressive strength', g.specs.strength],
-          ['Water absorption',     g.specs.absorption],
-          ['Hardness',             g.specs.hardness],
-          ['Bulk density',         g.specs.density],
-        ])}
-      </dl>
+      <dl class="stone-facts">${defRows(FACTS.filter(([k]) => g.facts?.[k]).map(([k, label]) => [label, g.facts[k]]))}</dl>
 
       <div class="row stone-detail__actions">
         <a class="btn btn--green" href="/contact#${esc(g.id)}">Inquire About This Stone</a>
         <a class="link-arrow" href="/contact#${esc(g.id)}">Request spec sheet</a>
       </div>
     </div>`;
-
-  onClick('[data-finish]', el => {
-    state.finish = el.dataset.finish;
-    setPressed(qsa('[data-finish]', detail), x => x.dataset.finish === state.finish);
-  }, detail);
 
   if (multi) {
     const frame  = qs('[data-gallery-frame]', detail);
@@ -126,7 +109,6 @@ function select(id, { updateHash = true, fromTap = false } = {}) {
   detail.dataset.fading = 'true';
   setTimeout(() => {
     state.selected = next;
-    state.finish = FINISHES[0];
     renderDetail();
     renderThumbs();
     detail.dataset.fading = 'false';

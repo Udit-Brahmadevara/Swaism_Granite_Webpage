@@ -3,7 +3,7 @@
 THIS FILE IS THE SOURCE OF THE PAGE MARKUP. The .html files in public/ are build
 output: every run rewrites all of them, so an edit made directly to one is lost
 the next time anyone runs `npm run pages`. Edit the page bodies below instead.
-(Content — stones, specs, markets — lives in public/assets/js/data.js.)
+(Content — stones, markets, articles — lives in public/assets/js/data.js.)
 
     npm run pages        # regenerate, restamp the service worker, run the checks
 
@@ -78,9 +78,9 @@ PAGES = {}
 
 PAGES['index'] = dict(
   key='home', script='home',
-  title='Swasim Granite — Quarry Owners &amp; Granite Exporters, Hosur',
-  desc='Swasim Granite has cut and exported premium Indian granite from Hosur since 2010 — blocks, slabs, tiles and monuments, with selection, cutting, finishing and export packing handled in-house.',
-  og_title='Swasim Granite — Excellence Carved in Stone',
+  title='Swasim Granite | Quarry Owners &amp; Granite Exporters, Hosur',
+  desc='Since 2010, Swasim Granite has cut and exported premium Indian granite from Hosur. We supply blocks, slabs, tiles and monuments, and handle selection, cutting, finishing and export packing in-house.',
+  og_title='Swasim Granite | Excellence Carved in Stone',
   og_desc='Premium granite blocks, slabs, tiles and monuments from Hosur, India. '
           'Every step in-house, from block to container.',
   extra='', after='',
@@ -92,7 +92,7 @@ PAGES['index'] = dict(
         <p class="eyebrow eyebrow--rule">EST. 2010 · HOSUR, INDIA</p>
         <h1 class="display display--hero">Excellence<br>Carved in <em>Stone</em></h1>
         <p class="lede">Crafting stone since 2010. We turn raw granite into premium blocks, slabs,
-          tiles and monuments — handling selection, cutting, finishing and export packing in-house
+          tiles and monuments, handling selection, cutting, finishing and export packing in-house
           for clients across India, Vietnam, Singapore, Russia, Europe and the Middle East.</p>
         <p class="lede lede--mobile">Hosur, Tamil Nadu. Block to container, all in-house,
           since 2010.</p>
@@ -105,7 +105,6 @@ PAGES['index'] = dict(
       <div class="carousel rise rise--slow" data-carousel></div>
     </div>
     <div class="hero__stats" data-hero-stats></div>
-    <div class="trust"><ul data-trust></ul></div>
   </section>
 
   <section class="band">
@@ -121,7 +120,7 @@ PAGES['index'] = dict(
         <span class="label">Featured lots</span>
         <a class="label label--green" href="/catalogue">See all</a>
       </div>
-      <div class="stone-grid" data-featured></div>
+      <div class="marquee" data-featured></div>
     </div>
   </section>
 
@@ -131,7 +130,7 @@ PAGES['index'] = dict(
         <p class="eyebrow">Why Swasim</p>
         <h2 class="display display--section mb-md">Every step in-house, from block to container.</h2>
         <p class="prose prose--on-dark measure-md mb-xl">We handle selection, cutting, finishing and
-          export-ready packing ourselves, so what reaches you is consistent, high-quality stone —
+          export-ready packing ourselves, so what reaches you is consistent, high-quality stone,
           every time. Under Managing Director Roopesh Kumar, we've grown from a local supplier into
           a name trusted across India and international markets.</p>
         <a class="btn btn--ghost" href="/about">More about the plant</a>
@@ -139,23 +138,31 @@ PAGES['index'] = dict(
       <div class="stats" data-stats></div>
     </div>
   </section>
+
+  <section class="band">
+    <div class="shell">
+      <p class="eyebrow">Affiliations</p>
+      <h2 class="display display--section t-green mb-lg measure-hd">Registered with India's export bodies and active in its stone trade.</h2>
+      <ul class="affiliations" data-affiliations></ul>
+    </div>
+  </section>
 ''' + CTA.format(head='Send volumes, thickness and finish.<br>Quote back within one working day.',
                  action='<a class="btn btn--primary" href="/contact">Get a B2B Quote</a>'))
 
 PAGES['about'] = dict(
   key='about', script='about',
-  title='About Us — Swasim Granite',
+  title='About Us | Swasim Granite',
   desc='Based in Hosur, Tamil Nadu, Swasim Granite has turned raw granite into premium stone products since 2010, serving India, Vietnam, Singapore, Russia, Europe and the Middle East.',
   after='',
   extra='',
   body='''
-  <section class="masthead masthead--navy">
+  <section class="masthead">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">About Swasim</p>
       <h1 class="display display--page">Crafting Stone Since 2010</h1>
       <p>Based in Hosur, India, Swasim Granite has been turning raw granite into premium stone
-        products for over a decade — serving clients across India, Vietnam, Singapore, Russia, Europe and the Middle East.</p>
+        products for over a decade, serving clients across India, Vietnam, Singapore, Russia, Europe and the Middle East.</p>
     </div>
   </section>
 
@@ -167,8 +174,8 @@ PAGES['about'] = dict(
           <p>Under the leadership of Managing Director Roopesh Kumar, we've grown from a local supplier
             into a trusted name serving clients across India and international markets including
             Vietnam, Singapore, Russia, Europe, and the Middle East.</p>
-          <p>We handle every step in-house — from selecting the right block at the source, to precision
-            cutting, finishing, and export-ready packing — so what reaches you is consistent,
+          <p>We handle every step in-house, from selecting the right block at the source to precision
+            cutting, finishing, and export-ready packing. As a result, what reaches you is consistent,
             high-quality stone, every time.</p>
         </div>
         <div class="stats" data-stats></div>
@@ -199,11 +206,11 @@ PAGES['about'] = dict(
 
   <section class="band anchor" id="infrastructure">
     <div class="shell">
-      <p class="eyebrow">Infrastructure</p>
+      <p class="eyebrow">Infrastructure &amp; Capabilities</p>
       <h2 class="display display--section t-green mb-md measure-lg">Every stage, under one roof in Hosur.</h2>
-      <p class="prose mb-lg">Our Hosur facility carries a shipment through the full journey — from
-        block selection to export logistics — so nothing is outsourced and nothing is left to chance.</p>
-      <div class="journey" data-journey></div>
+      <p class="prose mb-lg">Our plant is installed with all the machines that allow us to do every
+        step, from the selection of blocks to the end product.</p>
+      <div class="product-grid product-grid--thirds" data-capabilities></div>
     </div>
   </section>
 ''' + CTA.format(head='See what we make, block to monument.',
@@ -216,8 +223,8 @@ out = SITE
 
 PAGES['catalogue'] = dict(
   key='catalogue', script='catalogue', extra='',
-  title='Catalogue — Swasim Granite',
-  desc='The Swasim collection: granite and marble varieties with full technical specifications and finish options, plus monument craftsmanship from our Hosur workshop.',
+  title='Catalogue | Swasim Granite',
+  desc='The Swasim collection: granite and marble varieties, each with a description and a full-slab photograph, plus monument craftsmanship from our Hosur workshop.',
   after='''
 <dialog class="lightbox" data-lightbox aria-label="Monument photograph">
   <div class="lightbox__stage"><img alt=""></div>
@@ -228,13 +235,13 @@ PAGES['catalogue'] = dict(
 </dialog>
 ''',
   body='''
-  <section class="masthead">
+  <section class="masthead masthead--blue">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">Catalogue</p>
       <h1 class="display display--page">The Swasim Collection</h1>
-      <p class="mb-xl">Select a stone to load full technical specifications, finish options and a
-        full-slab view. All stones available in 2cm / 3cm gangsaw slabs, cut-to-size and tiles.</p>
+      <p class="mb-xl">Select a stone to see its full-slab view and description. All stones are
+        available as 2cm / 3cm gangsaw slabs, cut-to-size and tiles.</p>
       <label class="search" for="stone-search">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor"
              stroke-width="1.6" aria-hidden="true">
@@ -265,8 +272,8 @@ PAGES['catalogue'] = dict(
     <div class="shell">
       <div class="mb-lg">
         <h2 class="display display--block t-green mb-xs">Monument Craftsmanship</h2>
-        <p class="prose stack-0">A selection of headstones, memorials and custom carvings from our
-          workshop — in black, red, grey and multicolour granite, hand-finished and engraved to order.</p>
+        <p class="prose stack-0">A selection of headstones, memorials and custom carvings in black, red,
+          grey and multicolour granite, hand-finished and engraved to order in our workshop.</p>
       </div>
       <div class="gallery" data-gallery></div>
       <div class="centre gallery-cta">
@@ -278,16 +285,16 @@ PAGES['catalogue'] = dict(
 
 PAGES['what-we-do'] = dict(
   key='what-we-do', script='what-we-do', extra='', after='',
-  title='What We Do — Swasim Granite',
-  desc='Granite blocks, slabs, tiles, monuments and customised work — and the eight-step quarry-to-delivery journey we run in-house at Hosur.',
+  title='What We Do | Swasim Granite',
+  desc='Granite blocks, slabs, tiles, monuments and customised work, plus the eight-step quarry-to-delivery journey we run in-house at Hosur.',
   body='''
-  <section class="masthead masthead--saffron">
+  <section class="masthead masthead--red">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">What We Do</p>
       <h1 class="display display--page">From raw block to finished product.</h1>
-      <p>Swasim Granite delivers premium natural stone for projects of every scale —
-        residential, commercial, and monumental.</p>
+      <p>Swasim Granite delivers premium natural stone for residential, commercial, and monumental
+        projects of every scale.</p>
     </div>
   </section>
 
@@ -302,9 +309,9 @@ PAGES['what-we-do'] = dict(
   <section class="band band--green">
     <div class="shell">
       <p class="eyebrow">From Quarry to Delivery</p>
-      <h2 class="display display--section mb-md measure-hd">We don't just supply stone — we manage the entire journey.</h2>
+      <h2 class="display display--section mb-md measure-hd">We don't just supply stone. We manage the entire journey.</h2>
       <p class="prose prose--on-dark measure-md mb-lg">Every block is hand-picked, every slab
-        quality-checked, and every shipment packed to survive the journey — whether it's headed
+        quality-checked, and every shipment packed to survive the journey, whether it's headed
         across the state or across the globe.</p>
       <div class="journey journey--dark" data-journey></div>
     </div>
@@ -314,16 +321,16 @@ PAGES['what-we-do'] = dict(
 
 PAGES['articles'] = dict(
   key='articles', script='articles', extra='', after='',
-  title='Articles &amp; Insights — Swasim Granite',
-  desc='Practical writing for people who buy, specify and fabricate stone — buyer guides, finishes, export packing and process notes from the Swasim yard and floor.',
+  title='Articles &amp; Insights | Swasim Granite',
+  desc='Practical writing for people who buy, specify and fabricate stone: buyer guides, finishes, export packing and process notes from the Swasim yard and floor.',
   body='''
-  <section class="masthead">
+  <section class="masthead masthead--red">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">Articles &amp; Insights</p>
       <h1 class="display display--page">Notes from the quarry and the floor.</h1>
-      <p>Practical writing for the people who buy, specify and fabricate stone — what we've learned
-        running every step in-house since 2010.</p>
+      <p>Practical writing for the people who buy, specify and fabricate stone, drawn from what
+        we've learned running every step in-house since 2010.</p>
     </div>
   </section>
 
@@ -342,7 +349,7 @@ PAGES['articles'] = dict(
     <div class="shell cta">
       <div>
         <h2 class="display display--block mb-xs">Have a question we should write about?</h2>
-        <p class="prose prose--on-dark measure-sm stack-0">Send it to the export desk — the questions
+        <p class="prose prose--on-dark measure-sm stack-0">Send it to the export desk. The questions
           buyers ask most often are the ones that end up here.</p>
       </div>
       <a class="btn btn--primary" href="/contact">Ask The Desk</a>
@@ -352,16 +359,16 @@ PAGES['articles'] = dict(
 
 PAGES['brochure'] = dict(
   key='brochure', script='brochure', extra='', after='',
-  title='Brochure — Swasim Granite',
+  title='Brochure | Swasim Granite',
   desc='Request the Swasim Granite company brochure: full product range, finishes, specifications, the quarry-to-delivery process and export contacts.',
   body='''
-  <section class="masthead">
+  <section class="masthead masthead--green">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">Company Brochure</p>
       <h1 class="display display--page">Our full range, on paper.</h1>
-      <p>Products, finishes and the export process in one document — for architects, fabricators
-        and importers evaluating Swasim Granite.</p>
+      <p>Products, finishes and the export process in one document, written for architects,
+        fabricators and importers evaluating Swasim Granite.</p>
     </div>
   </section>
 
@@ -389,7 +396,7 @@ PAGES['brochure'] = dict(
 
 PAGES['testimonials'] = dict(
   key='testimonials', script='testimonials', extra='', after='',
-  title='Testimonials — Swasim Granite',
+  title='Testimonials | Swasim Granite',
   desc='Feedback from the fabricators, importers and contractors Swasim Granite works with across India and abroad.',
   body='''
   <section class="masthead">
@@ -417,15 +424,15 @@ PAGES['testimonials'] = dict(
 
 PAGES['contact'] = dict(
   key='contact', script='contact', extra='', after='',
-  title='Contact Us — Swasim Granite',
-  desc='Request a B2B quote for granite blocks, slabs, tiles, monuments or custom work. Swasim Granite, Shoolgiri / Sappadi, Hosur, Tamil Nadu. Quotes within one working day.',
+  title='Contact Us | Swasim Granite',
+  desc='Request a B2B quote for granite blocks, slabs, tiles, monuments or custom work. Swasim Granite, Kammandhoddi Village, Shoolagiri Taluk, Krishnagiri, Tamil Nadu. Quotes within one working day.',
   body='''
-  <section class="masthead">
+  <section class="masthead masthead--green">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">B2B Inquiry</p>
       <h1 class="display display--page">Have a project in mind,<br>or need a quote?</h1>
-      <p>We'd love to hear from you — on granite blocks, slabs, tiles, monuments or custom work.</p>
+      <p>We'd love to hear from you about granite blocks, slabs, tiles, monuments or custom work.</p>
     </div>
   </section>
 
@@ -438,8 +445,8 @@ PAGES['contact'] = dict(
         <dl class="hours mb-xl" data-hours></dl>
         <!-- Locator, not an embed. A live Google Maps iframe sets third-party
              cookies the moment it loads, which is the whole reason a site like
-             this would otherwise need a consent banner. The address, the
-             coordinates and a directions link do the job a buyer actually needs
+             this would otherwise need a consent banner. The address and a
+             directions link do the job a buyer actually needs
              without a third-party request, and the map is visible immediately
              rather than waiting on a tap. -->
         <div class="locator">
@@ -448,11 +455,10 @@ PAGES['contact'] = dict(
             <span class="locator__ring"></span>
           </div>
           <div class="locator__body">
-            <p class="locator__place">Shoolgiri / Sappadi, Hosur</p>
-            <p class="locator__region">Tamil Nadu, India</p>
-            <p class="locator__coords">12.7409&deg; N, 77.8253&deg; E</p>
+            <p class="locator__place">Kammandhoddi Village, Shoolagiri</p>
+            <p class="locator__region">Krishnagiri, Tamil Nadu 635117</p>
             <a class="btn btn--outline locator__go" rel="noopener"
-               href="https://www.google.com/maps/search/?api=1&amp;query=Shoolgiri%2C+Hosur%2C+Tamil+Nadu%2C+India">
+               href="https://www.google.com/maps/search/?api=1&amp;query=1279%2F18281%2C+Samanapalli+Road%2C+Kammandhoddi+Village%2C+Shoolagiri%2C+Krishnagiri%2C+Tamil+Nadu+635117">
               Get directions</a>
           </div>
         </div>
@@ -505,13 +511,13 @@ PAGES['contact'] = dict(
 
 PAGES['privacy'] = dict(
   key='privacy', script='privacy',
-  title='Privacy Policy — Swasim Granite',
+  title='Privacy Policy | Swasim Granite',
   desc='How Swasim Granite handles the information you send through this website: what the enquiry form collects, how it reaches us, and the fact that this site sets no cookies and runs no analytics.',
-  og_title='Privacy Policy — Swasim Granite',
+  og_title='Privacy Policy | Swasim Granite',
   og_desc='What the enquiry form collects, how it reaches us, and how long we keep it.',
   extra='', after='',
   body='''
-  <section class="masthead masthead--navy">
+  <section class="masthead">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">Legal</p>
@@ -533,8 +539,9 @@ PAGES['privacy'] = dict(
 
       <h2>Who we are</h2>
       <p>Swasim Granite, quarry owners, processors and exporters of Indian granite, based at
-        Shoolgiri / Sappadi, Hosur, Tamil Nadu, India. For anything in this policy — including a
-        request to see, correct or delete your information — contact us at
+        1279/18281, Samanapalli Road, Kammandhoddi Village, Shoolagiri Taluk, Krishnagiri District,
+        Tamil Nadu 635117, India. For anything in this policy, including a
+        request to see, correct or delete your information, contact us at
         <a href="mailto:swasimgranite@gmail.com">swasimgranite@gmail.com</a> or
         <a href="tel:+919448841482">+91 94488 41482</a>.</p>
 
@@ -556,8 +563,8 @@ PAGES['privacy'] = dict(
       <h2>How it reaches us</h2>
       <p>The enquiry form sends nothing from this website. When you press
         <em>Send B2B Inquiry</em>, it opens WhatsApp with your enquiry typed out, and it reaches
-        us only if you send that message from your own WhatsApp account — which, as with any
-        WhatsApp message, also shows us your number and profile name. The <em>Call</em>,
+        us only if you send that message from your own WhatsApp account. As with any WhatsApp
+        message, that also shows us your number and profile name. The <em>Call</em>,
         <em>WhatsApp</em> and email links on the site likewise open your own phone, WhatsApp or
         email application. This website does not see or record anything you send those ways, and
         your use of WhatsApp is governed by WhatsApp's own privacy terms, not ours.</p>
@@ -574,7 +581,7 @@ PAGES['privacy'] = dict(
         It is a speed measure, not a tracking one.</p>
 
       <h2>Why we use your information, and for how long</h2>
-      <p>We use your enquiry to reply to you, prepare a quotation, and — if you go ahead — to
+      <p>We use your enquiry to reply to you, prepare a quotation and, if you go ahead,
         fulfil and ship your order. We keep it for as long as we are doing business with you, and
         afterwards for the period we are required to retain commercial and tax records under
         Indian law. Enquiries that do not lead to business are deleted once they are clearly no
@@ -601,18 +608,18 @@ PAGES['privacy'] = dict(
 
 PAGES['404'] = dict(
   key='404', script='notfound',
-  title='Page Not Found — Swasim Granite',
+  title='Page Not Found | Swasim Granite',
   desc='That page does not exist. Browse the granite catalogue, see what we do, or contact the Swasim Granite export desk.',
-  og_title='Page Not Found — Swasim Granite',
-  og_desc='That page does not exist — but the catalogue and the export desk do.',
+  og_title='Page Not Found | Swasim Granite',
+  og_desc='That page does not exist, but the catalogue and the export desk do.',
   extra='', after='',
   body='''
-  <section class="masthead masthead--ink notfound">
+  <section class="masthead masthead--blue notfound">
     <div class="masthead__texture" aria-hidden="true"></div>
     <div class="masthead__inner">
       <p class="eyebrow">Error 404</p>
       <h1 class="display display--page">This page has been quarried out.</h1>
-      <p>The link you followed does not lead anywhere on this site — it may be out of date, or
+      <p>The link you followed does not lead anywhere on this site. It may be out of date or
         mistyped. Everything below is still exactly where it should be.</p>
       <div class="row hero-actions notfound__actions">
         <a class="btn btn--primary" href="/catalogue">Browse the Catalogue</a>
@@ -645,19 +652,25 @@ ORG_JSONLD = '''  <script type="application/ld+json">
     "url": "{site}/",
     "logo": "{site}/assets/brand/swasim-logo.png",
     "image": "{share}",
-    "description": "Quarry owners, processors and exporters of Indian granite \\u2014 blocks, slabs, tiles and monuments.",
+    "description": "Quarry owners, processors and exporters of Indian granite blocks, slabs, tiles and monuments.",
     "foundingDate": "2010",
     "email": "swasimgranite@gmail.com",
     "telephone": "+91-94488-41482",
     "address": {{
       "@type": "PostalAddress",
-      "streetAddress": "Shoolgiri / Sappadi",
-      "addressLocality": "Hosur",
+      "streetAddress": "1279/18281, Samanapalli Road, Kammandhoddi Village",
+      "addressLocality": "Shoolagiri",
       "addressRegion": "Tamil Nadu",
+      "postalCode": "635117",
       "addressCountry": "IN"
     }},
     "areaServed": ["IN", "VN", "SG", "RU", "EU", "AE", "SA", "QA", "OM", "KW"],
-    "knowsAbout": ["Granite blocks", "Granite slabs", "Granite tiles", "Granite monuments"]
+    "knowsAbout": ["Granite blocks", "Granite slabs", "Granite tiles", "Granite monuments"],
+    "sameAs": [
+      "https://www.facebook.com/Swasimgranite/",
+      "https://www.instagram.com/swasimgranite/",
+      "https://www.linkedin.com/company/swasim-granite"
+    ]
   }}
   </script>
 '''.format(site=SITE_URL, share=SHARE_IMAGE)
@@ -671,7 +684,12 @@ PRIORITY = {
     'about': '0.7', 'testimonials': '0.6', 'brochure': '0.6', 'articles': '0.5',
     'privacy': '0.3',
 }
-NOINDEX = {'404'}          # a 404 must never be offered to a crawler
+# Pages not ready for visitors. They still build, so they can be previewed at
+# their URL, but they carry noindex and stay out of the sitemap, and chrome.js
+# drops them from the navigation (`hidden: true` in NAV). To publish one,
+# remove it here and there, then run `npm run pages`.
+HIDDEN = {'articles', 'brochure', 'testimonials'}
+NOINDEX = {'404'} | HIDDEN   # a 404 must never be offered to a crawler
 
 
 def page_url(name):

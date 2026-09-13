@@ -2,7 +2,7 @@
  * Swasim Granite — content model.
  *
  * This is the single source of truth for everything the site renders:
- * stones, specs, process, markets and articles. Pages import from here,
+ * stones, process, markets and articles. Pages import from here,
  * so copy changes happen in one place and never in markup.
  */
 
@@ -11,97 +11,171 @@ export const COMPANY = {
   founded: 2010,
   md: 'Roopesh Kumar',
   location: 'Hosur, Tamil Nadu, India',
-  address: 'Shoolgiri / Sappadi, Hosur, Tamil Nadu, India',
+  address: '1279/18281, Samanapalli Road, Kammandhoddi Village, Shoolagiri Taluk, Krishnagiri District, Tamil Nadu 635117, India',
   phone: '+91 94488 41482',
   phoneHref: '+919448841482',
   email: 'swasimgranite@gmail.com',
   markets: ['India', 'Vietnam', 'Singapore', 'Russia', 'Europe', 'Middle East'],
 };
 
-export const CERTIFICATIONS = [
-  'ISO 9001:2015',
-  'CE Marked Slabs',
-  'FOB Chennai · Tuticorin',
-];
+/** WhatsApp chat link, on the same number as the phone. */
+export const WHATSAPP = `https://wa.me/${COMPANY.phoneHref.replace('+', '')}`;
 
-export const TRUST_STRIP = [
-  'ISO 9001:2015',
-  'CE MARKED SLABS',
-  'FOB CHENNAI · TUTICORIN',
-  'MONTHLY CAPACITY 45,000 SQM',
+/** Google Maps search for the plant, used by the footer address. The contact
+    page's "Get directions" button (tools/pages.py) runs the same query. */
+export const MAPS = 'https://www.google.com/maps/search/?api=1&query=1279%2F18281%2C+Samanapalli+Road%2C+Kammandhoddi+Village%2C+Shoolagiri%2C+Krishnagiri%2C+Tamil+Nadu+635117';
+
+/* Footer icon links, in display order. An entry without an `href` shows its
+   icon but is not a link. `label` is what a screen reader announces for the
+   link. The three profile URLs are also the JSON-LD `sameAs` in tools/pages.py. */
+export const SOCIAL = [
+  { key: 'facebook',  label: 'Swasim Granite on Facebook',  href: 'https://www.facebook.com/Swasimgranite/' },
+  { key: 'instagram', label: 'Swasim Granite on Instagram', href: 'https://www.instagram.com/swasimgranite/' },
+  { key: 'whatsapp',  label: 'Message us on WhatsApp',      href: WHATSAPP },
+  { key: 'linkedin',  label: 'Swasim Granite on LinkedIn',  href: 'https://www.linkedin.com/company/swasim-granite' },
+  { key: 'email',     label: `Email ${COMPANY.email}`,       href: `mailto:${COMPANY.email}` },
+  { key: 'phone',     label: `Call ${COMPANY.phone}`,        href: `tel:${COMPANY.phoneHref}` },
 ];
 
 export const FINISHES = ['Polished', 'Honed', 'Leathered', 'Flamed'];
 
-export const GRANITES = [
-  { id: 'blue-pearl', name: 'Blue Pearl Granite', type: 'Exotic', origin: 'IMPORT LOT',
-    tagline: 'LABRADORITE SHIMMER', img: '/assets/granite/blue-pearl.jpg',
-    description: 'Labradorite crystals fire blue and silver as the viewing angle shifts — a stone that changes across the day. Best used where light moves: feature walls, vanity tops and lift surrounds. Supplied in book-matched pairs on request.',
-    specs: { strength: '174 MPa', absorption: '0.09%', hardness: '6.5 Mohs', density: '2,780 kg/m³' } },
+/* The collection, in catalogue order. `facts` are the client's own descriptions
+   (Sep 2026) and fill the catalogue detail; `origin` is the short label on
+   cards, chips and the hero. Ids never change, so links keep working.
 
-  { id: 'green-marble', name: 'Green Marble', type: 'Exotic', origin: 'RAJASTHAN',
-    tagline: 'FLOWING VEIN MARBLE', img: '/assets/granite/green-marble.jpg',
-    description: 'A deep forest-green marble crossed by dense white veining that runs in flowing, almost woven bands. Book-match it across a wall and the pattern reads as one continuous composition. Specified for feature walls, altar surrounds and reception counters.',
-    specs: { strength: '96 MPa', absorption: '0.40%', hardness: '3.5 Mohs', density: '2,780 kg/m³' } },
+   A stone without a photograph (`img: null`) is held back from every page by
+   the filter at the end, and appears on its own once its photo is added. */
+const ALL_GRANITES = [
+  // Ultimate Black and Absolute Black are one stone to the client: one entry
+  // with both photographs. `black-absolute` keeps the id the hero uses.
+  { id: 'black-absolute', name: 'Ultimate / Absolute Black', type: 'Premium', origin: 'SOUTH INDIA',
+    tagline: 'DEEP UNIFORM BLACK', img: '/assets/granite/black-absolute.jpg',
+    images: [
+      { src: '/assets/granite/black-absolute.jpg', alt: 'Polished Ultimate / Absolute Black granite: a deep, uniform black' },
+      { src: '/assets/granite/ultimate-black.jpg', alt: 'A second slab of Ultimate / Absolute Black granite' },
+    ],
+    facts: {
+      origin: 'India, primarily quarried in South India, including Karnataka, Telangana and Andhra Pradesh.',
+      foundIn: 'Major quarrying regions include Chamarajanagar, Warangal, Khammam and Kanigiri.',
+      applications: 'Kitchen countertops, flooring, staircases, wall cladding, façades, monuments and commercial interiors.',
+      properties: 'Deep black colour, fine grain, high durability, low porosity and water absorption, excellent scratch and wear resistance, and a high-quality polish.' } },
 
-  { id: 'hassan-green', name: 'Hassan Green Granite', type: 'Premium', origin: 'KARNATAKA',
-    tagline: 'DEEP QUARRY GREEN', img: '/assets/granite/hassan-green.jpg',
-    description: 'Our house-colour green, quarried near Hassan: a dark uniform ground with fine pale speckle and occasional quartz threading. Cut from a single bench so colour repeats reliably across container lots. Recommended for cladding, island tops and dark flooring.',
-    specs: { strength: '170 MPa', absorption: '0.13%', hardness: '6.5 Mohs', density: '2,720 kg/m³' } },
-
-  { id: 'imperial-red', name: 'Imperial Red', type: 'Exotic', origin: 'ANDHRA PRADESH',
-    tagline: 'DEEP RED FELDSPAR', img: '/assets/granite/imperial-red.jpg',
-    description: 'Dense red feldspar with dark, flame-like streaking and a velvet depth after leathering. A dramatic stone that holds its saturation outdoors, making it suitable for entrance portals, monuments and exterior cladding bands.',
-    specs: { strength: '181 MPa', absorption: '0.11%', hardness: '6.5 Mohs', density: '2,750 kg/m³' } },
-
-  { id: 'indian-juparana', name: 'Indian Juparana', type: 'Premium', origin: 'ANDHRA PRADESH',
-    tagline: 'WARM GOLD MOVEMENT', img: '/assets/granite/indian-juparana.jpg',
-    description: 'A warm gold-and-cream field with sweeping burgundy streaks and fine mica sparkle. One of the most fabricated export granites for its reliability at scale. Kitchen countertops, reception cladding and stair treads.',
-    specs: { strength: '155 MPa', absorption: '0.20%', hardness: '6 Mohs', density: '2,650 kg/m³' } },
-
-  { id: 'red-multi', name: 'Red Multi Granite', type: 'Commercial', origin: 'ANDHRA PRADESH',
-    tagline: 'HIGH-CONTRAST FIELD', img: '/assets/granite/red-multi.jpg',
-    description: 'A lively red-and-grey multicolour field with coarse crystal structure, priced for volume work without sacrificing durability. Popular for commercial kitchen counters, steps and paving.',
-    specs: { strength: '165 MPa', absorption: '0.18%', hardness: '6 Mohs', density: '2,690 kg/m³' } },
-
-  { id: 'tan-brown', name: 'Tan Brown', type: 'Commercial', origin: 'ANDHRA PRADESH',
-    tagline: 'HIGH-VOLUME WORKHORSE', img: '/assets/granite/tan-brown.jpg',
-    description: 'Dark brown ground with reddish-tan crystal clusters and black flecking. Extremely hard-wearing and stain-tolerant, which is why it dominates commercial kitchen and hospitality specifications worldwide.',
-    specs: { strength: '188 MPa', absorption: '0.08%', hardness: '6.5 Mohs', density: '2,860 kg/m³' } },
-
-  { id: 'viscount-white', name: 'Viscount White', type: 'Premium', origin: 'IMPORT LOT',
-    tagline: 'MARBLE-LIKE VEINING', img: '/assets/granite/viscount-white.jpg',
-    description: 'A pale grey-white field crossed by soft flowing grey veins, giving the appearance of marble with the durability of granite. The preferred substitute where a marble look is wanted in high-traffic wet areas.',
-    specs: { strength: '165 MPa', absorption: '0.15%', hardness: '6.5 Mohs', density: '2,690 kg/m³' } },
-
-  { id: 'black-absolute', name: 'Black Absolute', type: 'Premium', origin: 'KARNATAKA',
-    tagline: 'UNIFORM VELVET BLACK', img: '/assets/granite/black-absolute.jpg',
-    description: 'A dense, uniform black dolerite with almost no visible crystal structure. Holds a soft velvet sheen even before full polish. Used for countertops, memorials, signage bases and interior stair treads.',
-    specs: { strength: '190 MPa', absorption: '0.06%', hardness: '7 Mohs', density: '2,980 kg/m³' } },
-
-  { id: 'ivory-brown', name: 'Ivory Brown', type: 'Commercial', origin: 'RAJASTHAN',
-    tagline: 'SOFT LAYERED CREAM', img: '/assets/granite/ivory-brown.jpg',
-    description: 'A soft ivory-cream ground with fine rust-brown veining running in layered bands. Forgiving in fabrication and consistently available. Countertops, window sills and light-toned flooring.',
-    specs: { strength: '148 MPa', absorption: '0.23%', hardness: '6 Mohs', density: '2,630 kg/m³' } },
+  { id: 'ivory-brown', name: 'Ivory Brown / Shivakasi Brown', type: 'Commercial', origin: 'TAMIL NADU',
+    tagline: 'WARM IVORY & BROWN', img: '/assets/granite/ivory-brown.jpg',
+    facts: {
+      origin: 'India, primarily quarried in Tamil Nadu.',
+      foundIn: 'Shivakasi and surrounding regions of Tamil Nadu.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and monuments.',
+      properties: 'Warm brown and ivory tones with natural black, grey and burgundy mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
 
   // Two views, so this stone shows a gallery (arrows, dots, swipe). Add more
   // entries to `images` to extend it; `img` stays the single grid thumbnail.
-  { id: 'indian-aurora', name: 'Indian Aurora Granite', type: 'Exotic', origin: 'KARNATAKA',
-    tagline: 'FLOWING COPPER & BLACK', img: '/assets/granite/indian-aurora-slab.jpg',
+  { id: 'indian-aurora', name: 'Indian Aurora', type: 'Exotic', origin: 'SOUTH INDIA',
+    tagline: 'FLOWING WARM TONES', img: '/assets/granite/indian-aurora-slab.jpg',
     images: [
       { src: '/assets/granite/indian-aurora-slab.jpg',
         alt: 'A full polished Indian Aurora slab standing on trestles, with the rest of the bundle stacked behind it' },
       { src: '/assets/granite/indian-aurora.jpg',
-        alt: 'Close detail of Indian Aurora, showing the flowing copper and black banding' },
+        alt: 'Close detail of Indian Aurora, showing its flowing banding' },
     ],
-    description: 'A gneissic stone in copper and black, with long flowing bands that behave almost like a textile at slab scale. Book-match it across a wall and the movement resolves into a single sweeping composition. Feature walls and boardroom tables.',
-    specs: { strength: '159 MPa', absorption: '0.17%', hardness: '6 Mohs', density: '2,700 kg/m³' } },
+    facts: {
+      origin: 'India, primarily quarried in southern India.',
+      foundIn: 'Karnataka and Andhra Pradesh.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and monuments.',
+      properties: 'Warm brown, grey and cream tones with flowing natural patterns. Durable, hard, low-porosity and resistant to scratches, heat and everyday wear.' } },
 
-  { id: 'ultimate-black', name: 'Ultimate Black Granite', type: 'Premium', origin: 'TAMIL NADU',
-    tagline: 'PRECISION JET BLACK', img: '/assets/granite/ultimate-black.jpg',
-    description: 'A true uniform black granite with no visible veining — the benchmark stone for precision fabrication. Holds a mirror polish above 90 gloss units. Countertops, signage bases and interior cladding.',
-    specs: { strength: '196 MPa', absorption: '0.05%', hardness: '7 Mohs', density: '3,010 kg/m³' } },
+  { id: 'viscount-white', name: 'Viscount White', type: 'Premium', origin: 'ANDHRA PRADESH',
+    tagline: 'MARBLE-LIKE VEINING', img: '/assets/granite/viscount-white.jpg',
+    facts: {
+      origin: 'India, primarily quarried in Andhra Pradesh.',
+      foundIn: 'The Ongole region of Andhra Pradesh.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and commercial interiors.',
+      properties: 'Light grey to white base with flowing dark grey veins and subtle mineral patterns. Durable, hard, low-porosity and resistant to scratches, heat and everyday wear.' } },
+
+  { id: 'tan-brown', name: 'Tan Brown', type: 'Commercial', origin: 'TELANGANA',
+    tagline: 'HIGH-VOLUME WORKHORSE', img: '/assets/granite/tan-brown.jpg',
+    facts: {
+      origin: 'India, primarily quarried in Telangana.',
+      foundIn: 'Karimnagar region of Telangana.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and monuments.',
+      properties: 'Rich brown background with black and burgundy mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'blue-pearl', name: 'Blue Pearl', type: 'Exotic', origin: 'NORWAY',
+    tagline: 'SILVER-BLUE SHIMMER', img: '/assets/granite/blue-pearl.jpg',
+    facts: {
+      origin: 'Norway.',
+      foundIn: 'Larvik region of Norway.',
+      applications: 'Countertops, flooring, wall cladding, façades, staircases and monuments.',
+      properties: 'Distinctive blue-grey background with shimmering silver and blue feldspar crystals. Highly durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'emerald-green', name: 'Emerald Green', type: 'Premium', origin: 'INDIA',
+    tagline: 'RICH DEEP GREEN', img: '/assets/granite/emerald-green.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Rajasthan and Karnataka, depending on the variety and quarry source.',
+      applications: 'Countertops, flooring, wall cladding, staircases, façades and monuments.',
+      properties: 'Rich green colour with natural black and darker green patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'imperial-red', name: 'Imperial Red', type: 'Exotic', origin: 'SOUTH INDIA',
+    tagline: 'DEEP RED FELDSPAR', img: '/assets/granite/imperial-red.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Primarily Telangana and Karnataka.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, monuments and memorials.',
+      properties: 'Rich red background with black and grey mineral patterns. Highly durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'red-multi', name: 'Multi Red', type: 'Commercial', origin: 'SOUTH INDIA',
+    tagline: 'HIGH-CONTRAST FIELD', img: '/assets/granite/red-multi.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Primarily Telangana, Karnataka and Andhra Pradesh.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, monuments and memorials.',
+      properties: 'Vibrant red base with black, brown and grey mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'hassan-green', name: 'Hassan Green', type: 'Premium', origin: 'KARNATAKA',
+    tagline: 'DEEP QUARRY GREEN', img: '/assets/granite/hassan-green.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Hassan district, Karnataka.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, monuments and landscaping.',
+      properties: 'Deep green to dark green colour with natural black and grey mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'indian-juparana', name: 'Indian Juparana', type: 'Premium', origin: 'SOUTH INDIA',
+    tagline: 'WARM WAVY MOVEMENT', img: '/assets/granite/indian-juparana.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Primarily Tamil Nadu and Karnataka.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and monuments.',
+      properties: 'Warm cream, pink, brown and grey tones with flowing, wavy mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  { id: 'green-marble', name: 'Green Marble', type: 'Exotic', origin: 'RAJASTHAN',
+    tagline: 'FLOWING VEIN MARBLE', img: '/assets/granite/green-marble.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Rajasthan, particularly the Udaipur and Rajsamand regions.',
+      applications: 'Flooring, wall cladding, countertops, staircases, bathrooms, temples and decorative interiors.',
+      properties: 'Rich green colour with natural veining and patterns. Smooth, elegant, durable and suitable for both residential and commercial interiors.' } },
+
+  { id: 'kuppam-green', name: 'Kuppam Green', type: 'Commercial', origin: 'ANDHRA PRADESH',
+    tagline: 'FLOWING GREY-GREEN WAVES', img: '/assets/granite/kuppam-green.jpg',
+    facts: {
+      origin: 'India.',
+      foundIn: 'Kuppam region, Andhra Pradesh.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, monuments and landscaping.',
+      properties: 'Dark to medium green base with black and grey mineral patterns. Durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
+
+  // No photograph yet, so held back (see above). Add the master to
+  // source-assets/granite/ and GRANITE_NAMES, run `npm run images`, set `img`.
+  { id: 'black-galaxy', name: 'Black Galaxy', type: 'Premium', origin: 'ANDHRA PRADESH',
+    tagline: 'GOLDEN BRONZE FLECK', img: null,
+    facts: {
+      origin: 'India.',
+      foundIn: 'Ongole region, Andhra Pradesh.',
+      applications: 'Countertops, flooring, staircases, wall cladding, façades, vanities and monuments.',
+      properties: 'Deep black background with distinctive golden and bronze flecks. Highly durable, hard, low-porosity and resistant to heat, scratches and everyday wear.' } },
 ];
+
+export const GRANITES = ALL_GRANITES.filter(g => g.img);
 
 /**
  * Homepage hero carousel, in the order shown. Each slide is a photograph with
@@ -135,7 +209,7 @@ export const HERO = [
   if (!h.stone) return h;
   const g = GRANITES.find(s => s.id === h.stone);
   return { img: g.img, name: g.name, kicker: `${g.type} · ${g.origin}`.toUpperCase(),
-           alt: `${g.name} — polished slab`, ...h };
+           alt: `Polished ${g.name} slab`, ...h };
 });
 
 export const STATS = [
@@ -151,7 +225,7 @@ export const HOME_BADGES = [
 ];
 
 export const PRODUCTS = [
-  { t: 'Granite Blocks', d: 'Sourced and selected for consistency in colour, grain, and strength — ready for processing or direct export.' },
+  { t: 'Granite Blocks', d: 'Sourced and selected for consistency in colour, grain, and strength, and ready for processing or direct export.' },
   { t: 'Granite Slabs', d: 'Large-format slabs finished to a flawless polish, ideal for countertops, flooring, and cladding.' },
   { t: 'Granite Tiles', d: 'Precision-cut tiles in a range of sizes and finishes, built for durability and easy installation.' },
   { t: 'Granite Monuments', d: 'Custom-crafted monuments and memorials, finished with the care and precision the occasion demands.' },
@@ -170,7 +244,18 @@ export const PROCESS = [
 
 export const JOURNEY = [
   'Selection', 'Cutting & Sizing', 'Processing', 'Finishing',
-  'Inspection — At Factory', 'Inspection — Before Packing', 'Packing', 'Logistics',
+  'Factory Inspection', 'Pre-Packing Inspection', 'Packing', 'Logistics',
+];
+
+/** About page, Infrastructure & Capabilities: the plant's machines, in the order
+    a block moves through them. The figures are the client's. */
+export const CAPABILITIES = [
+  { t: 'Cutting Machine',          d: '5-blade cutting machine that cuts blocks up to 4 feet.' },
+  { t: 'Edge Cutting Machine',     d: '250mm edge cutting machine for precision sizing.' },
+  { t: 'Line Polishing Machine',   d: 'Line polishing for thicknesses up to 80mm.' },
+  { t: 'Hand Polishing',           d: 'Hand polishing, suitable for any thickness.' },
+  { t: 'Lift / Material Handling', d: '5-ton capacity lift for handling finished product.' },
+  { t: 'Loading Facility',         d: 'Dual loading, supporting both manual and machine-assisted loading.' },
 ];
 
 export const VALUES = [
@@ -179,11 +264,30 @@ export const VALUES = [
   { t: 'Service that keeps clients coming back', d: 'Year after year, across India and international markets, on the strength of the relationship, not just the stone.' },
 ];
 
+/* Home page affiliations. `role` is Swasim's relationship to each body: confirm
+   the wording with the client before launch. `logo` ({ src, w, h }, a file in
+   /assets/affiliations/) shows at the top of the tile once set; use a body's
+   logo only with its permission. */
+export const AFFILIATIONS = [
+  { abbr: 'CAPEXIL', role: 'Member exporter',
+    logo: { src: '/assets/affiliations/capexil.png', w: 111, h: 112 },
+    name: 'Chemicals and Allied Products Export Promotion Council',
+    note: 'The export promotion council for granite, natural stone and allied products, set up by the Government of India.' },
+  { abbr: 'DGFT', role: 'Registered exporter (IEC)',
+    logo: { src: '/assets/affiliations/dgft.png', w: 67, h: 112 },
+    name: 'Directorate General of Foreign Trade',
+    note: 'The Government of India authority for foreign trade, under the Ministry of Commerce and Industry.' },
+  { abbr: 'STONA', role: 'Exhibition participant',
+    logo: { src: '/assets/affiliations/stona.png', w: 104, h: 112 },
+    name: 'International Granite and Stone Exhibition',
+    note: 'The international granite and stone trade fair held in Bengaluru.' },
+];
+
 /** Export markets plotted on the About page world map. */
 export const MARKETS = [
   { key: 'india', name: 'India', countries: ['India'],
-    since: 'Since 2010', lead: 'Home market — Hosur, Tamil Nadu.',
-    body: 'Our founding market. Blocks, slabs and cut-to-size supplied to fabricators and builders across Tamil Nadu, Karnataka, Kerala and Andhra Pradesh, delivered direct from the Hosur facility.',
+    since: 'Since 2010', lead: 'Home market, served from Hosur, Tamil Nadu.',
+    body: 'Our founding market. Blocks, slabs and cut-to-size supplied to fabricators and builders across India, delivered direct from the Hosur facility.',
     facts: ['Direct road delivery', 'Blocks · slabs · monuments', 'Repeat trade clients'] },
 
   { key: 'vietnam', name: 'Vietnam', countries: ['Vietnam'],
@@ -198,13 +302,13 @@ export const MARKETS = [
 
   { key: 'russia', name: 'Russia', countries: ['Russia'],
     since: 'Since 2019', lead: 'Monuments and memorial stone.',
-    body: 'Black and red granite monuments, headstones and cut-to-size memorial components — carved and finished in-house, then bundle-numbered for the yard that receives them.',
+    body: 'Black and red granite monuments, headstones and cut-to-size memorial components. Each is carved and finished in-house, then bundle-numbered for the yard that receives it.',
     facts: ['Monuments & memorials', 'Black · red granite', 'Bundle-numbered crates'] },
 
   { key: 'europe', name: 'Europe',
     countries: ['Germany', 'France', 'Italy', 'Netherlands', 'Belgium', 'Spain', 'Poland', 'United Kingdom'],
     since: 'Since 2021', lead: 'Specification-grade slabs and cladding.',
-    body: 'Supply to importers and façade contractors who need documented tolerances and repeatable colour across containers. Every slab is inspected twice — once at the factory, once before packing.',
+    body: 'Supply to importers and façade contractors who need documented tolerances and repeatable colour across containers. Every slab is inspected twice: once at the factory and once before packing.',
     facts: ['Facade & cladding', 'Documented tolerances', 'Two-stage inspection'] },
 
   // Countries are an assumption (the Gulf states) pending client confirmation.
@@ -226,21 +330,21 @@ export const ARTICLES = [
     title: 'Why we inspect every slab twice',
     excerpt: 'Once on the factory floor, once again before packing. The second pass catches what handling introduces, not what cutting left behind.' },
   { id: 'finishes-explained', tag: 'TECHNICAL', date: 'Jun 2026', read: '4 min read',
-    title: 'Polished, honed, leathered, flamed — where each finish belongs',
+    title: 'Where each finish belongs: polished, honed, leathered and flamed',
     excerpt: 'Gloss is not the same as quality. A practical map of finish to application, from wet-area flooring to exterior cladding bands.' },
   { id: 'monument-lead-times', tag: 'MONUMENTS', date: 'Mar 2026', read: '5 min read',
     title: 'Planning monument lead times around carving capacity',
     excerpt: 'Carving is the bottleneck, not sawing. How to sequence a memorial order so the finishing line never sits idle.' },
   { id: 'export-packing', tag: 'LOGISTICS', date: 'May 2026', read: '7 min read',
     title: 'What good export packing actually looks like',
-    excerpt: 'A-frames, fumigated timber, bundle numbering and lot-matched loading — why the crate matters as much as the stone inside it.' },
+    excerpt: 'A-frames, fumigated timber, bundle numbering and lot-matched loading. Why the crate matters as much as the stone inside it.' },
   { id: 'granite-vs-quartz', tag: 'BUYER GUIDE', date: 'Aug 2026', read: '6 min read',
     title: 'Granite or engineered quartz: how to choose for a countertop run',
     excerpt: 'Heat tolerance, seam behaviour and long-run cost differ more than the showroom sample suggests. What we tell fabricators before a large order.' },
 ];
 
 export const BROCHURE_CONTENTS = [
-  'Full granite collection — blocks, slabs, tiles, cut-to-size',
+  'Full granite collection: blocks, slabs, tiles and cut-to-size',
   'Granite monuments and custom stone solutions',
   'Available finishes and specifications',
   'The quarry-to-delivery process, step by step',
@@ -250,7 +354,7 @@ export const BROCHURE_CONTENTS = [
 export const OFFICE_HOURS = [
   { k: 'MON – SAT', v: '09:00 – 18:30 IST' },
   { k: 'PLANT VISITS', v: 'By appointment, Hosur' },
-  { k: 'QUOTE TURNAROUND', v: '1 working day' },
+  { k: 'CLOSED', v: 'During Amavasya (new moon day)' },
 ];
 
 /** 47 monument photographs; `thumb` feeds the grid, `full` the lightbox. */
@@ -276,13 +380,10 @@ export const MONUMENTS = Array.from({ length: 47 }, (_, i) => {
  */
 export const FACILITY = [
   { img: '/assets/facility/plant-frontage.jpg', focus: 'right',
-    caption: 'The plant and stone yard — Hosur facility',
+    caption: 'The plant and stone yard at the Hosur facility',
     alt: 'The Swasim Granite plant seen from the road: a large white processing shed on the left, and an orange gantry crane lettered “Swasim Granite” spanning a yard of stacked granite blocks and slabs, behind the compound wall' },
-  { img: '/assets/monuments/m25.jpg',
-    caption: 'Finishing floor — Hosur facility',
-    alt: 'Two finishers checking a polished Imperial Red monument on the floor of the Hosur facility, with the gangsaw line behind them' },
   { img: '/assets/monuments/m27.jpg',
-    caption: 'Hand-carving — a Nandi pair in progress',
+    caption: 'A hand-carved Nandi pair in progress',
     alt: 'A pair of hand-carved granite Nandi bulls on trestles inside the workshop, with stacked slabs and the open yard beyond' },
   { img: '/assets/monuments/m42.jpg',
     caption: 'Finished monuments on the workshop floor',
@@ -311,7 +412,7 @@ export const getStone = id => GRANITES.find(g => g.id === id);
 export const stoneImages = g =>
   (g.images && g.images.length)
     ? g.images
-    : [{ src: g.img, alt: `${g.name} — full slab` }];
+    : [{ src: g.img, alt: `Full slab of ${g.name}` }];
 
 /**
  * Client testimonials.
@@ -325,13 +426,13 @@ export const stoneImages = g =>
  */
 export const TESTIMONIALS = [
   { sample: true,
-    quote: 'The block photo set is what won us over. Four faces, water-washed, sent with the offer — we could grade the lot before committing, which no other supplier we deal with does as standard.',
+    quote: 'The block photo set is what won us over. Four faces, water-washed, sent with the offer. We could grade the lot before committing, which no other supplier we deal with does as standard.',
     name: 'Lena Tan', company: 'Eastpoint Stone & Tile', country: 'Singapore' },
   { sample: true,
     quote: 'We run repeat orders of the same green across three container loads a year. The colour has matched every time. For a natural stone that is not a small thing.',
     name: 'Andreas Brandt', company: 'Brandt Natursteinimport', country: 'Germany' },
   { sample: true,
-    quote: 'Slabs arrive crated properly — bundle-numbered, fumigated timber, A-frames that hold. In eight shipments we have had one edge chip. Our old supplier averaged a dozen.',
+    quote: 'Slabs arrive crated properly: bundle-numbered, in fumigated timber, on A-frames that hold. In eight shipments we have had one edge chip. Our old supplier averaged a dozen.',
     name: 'Joost van Dijk', company: 'Deltagevel Facades', country: 'Netherlands' },
   { sample: true,
     quote: 'They quote inside a working day and the quote holds. When a gangsaw lot ran late they told us before we had to ask, which mattered more than the delay itself.',

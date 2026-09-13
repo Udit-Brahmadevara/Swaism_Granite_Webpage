@@ -47,10 +47,10 @@ HTML = f'''<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Swasim Granite — Website Under Development</title>
-<meta name="description" content="Swasim Granite: quarry owners, processors and exporters of Indian granite from Hosur since 2010. Our website is under development — please contact the export desk directly.">
+<title>Swasim Granite | Website Under Development</title>
+<meta name="description" content="Swasim Granite: quarry owners, processors and exporters of Indian granite from Hosur since 2010. Our website is under development. Please contact the export desk directly.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="Swasim Granite — Website Under Development">
+<meta property="og:title" content="Swasim Granite | Website Under Development">
 <meta property="og:description" content="Quarry owners and exporters of Indian granite, Hosur. Blocks, slabs, tiles and monuments.">
 <meta name="theme-color" content="#191C1E">
 <link rel="icon" href="data:image/png;base64,{ICON}">
@@ -140,7 +140,7 @@ footer {{
 
     <p class="eyebrow">Est. 2010 · Hosur, India</p>
     <h1>Our website is<br>under <em>development</em>.</h1>
-    <p class="lede">Swasim Granite — quarry owners, processors and exporters of Indian granite.
+    <p class="lede">Swasim Granite is a quarry owner, processor and exporter of Indian granite.
       Blocks, slabs, tiles and monuments, shipped from Hosur to India, Vietnam, Singapore,
       Russia and Europe. Our full site is on its way.</p>
 
@@ -149,9 +149,9 @@ footer {{
 
 <footer>
   <ul class="strip">
-    <li>ISO 9001:2015</li>
-    <li>CE Marked Slabs</li>
-    <li>FOB Chennai · Tuticorin</li>
+    <li>CAPEXIL</li>
+    <li>DGFT</li>
+    <li>STONA</li>
     <li>&copy; 2026 Swasim Granite</li>
   </ul>
 </footer>

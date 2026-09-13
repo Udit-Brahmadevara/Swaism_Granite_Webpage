@@ -36,22 +36,42 @@ export const statList = (stats, { tone = 'dark' } = {}) => stats.map(s => `
 export const badgeList = badges => badges.map(b => `
   <div class="badge"><b>${esc(b.big)}</b><span>${esc(b.small)}</span></div>`).join('');
 
-/** Numbered quarry-to-delivery steps. Used by About and What We Do. */
+/** Numbered quarry-to-delivery steps, on What We Do. */
 export const journeySteps = steps => steps.map((t, i) => `
   <div class="journey__step">
     <b>${String(i + 1).padStart(2, '0')}</b><span>${esc(t)}</span>
   </div>`).join('');
 
-/** Product tiles; `wide: true` spans the whole row. */
+/** Name-and-copy tiles: the products on What We Do and the plant capabilities
+    on About. `wide: true` spans the whole row. An optional `img` (with `alt`)
+    runs across the top; `credit: { by, license, href }` adds the photo credit
+    an openly licensed image requires. */
+const photoCredit = c => `
+    <p class="product__credit">Photo: ${c.href
+      ? `<a href="${esc(c.href)}" target="_blank" rel="noopener noreferrer">${esc(c.by)}</a>`
+      : esc(c.by)}${c.license ? `, ${esc(c.license)}` : ''}</p>`;
+
 export const productCards = products => products.map(p => `
-  <div class="product${p.wide ? ' product--wide' : ''}">
+  <div class="product${p.wide ? ' product--wide' : ''}${p.img ? ' product--photo' : ''}">
+    ${p.img ? `<div class="product__img">${thumbPicture({ src: p.img, alt: p.alt || '' })}</div>` : ''}
     <h3 class="product__name">${esc(p.t)}</h3>
-    <p class="product__copy">${esc(p.d)}</p>
+    <p class="product__copy">${esc(p.d)}</p>${p.credit ? photoCredit(p.credit) : ''}
   </div>`).join('');
 
-/** Linked stone tiles for the home page collection strip. */
-export const stoneCards = stones => stones.map(g => `
-  <a class="stone-card" href="/catalogue#${esc(g.id)}">
+/** Home page affiliation tiles: the body's logo with its short name beneath.
+    The logo's alt is empty because the name under it already says what it is.
+    (`name`, `role` and `note` in AFFILIATIONS are not shown.) */
+export const affiliationCards = items => items.map(a => `
+  <li class="affiliation">
+    ${a.logo ? `<img class="affiliation__logo" src="${esc(a.logo.src)}" alt=""
+         width="${a.logo.w}" height="${a.logo.h}" loading="lazy" decoding="async">` : ''}
+    <h3 class="affiliation__abbr">${esc(a.abbr)}</h3>
+  </li>`).join('');
+
+/** Linked stone tiles for the home page collection marquee. `hidden: true`
+    takes them out of the tab order, for the marquee's duplicate set. */
+export const stoneCards = (stones, { hidden = false } = {}) => stones.map(g => `
+  <a class="stone-card" href="/catalogue#${esc(g.id)}"${hidden ? ' tabindex="-1"' : ''}>
     <span class="stone-card__img">
       ${thumbPicture({ src: g.img, alt: `${g.name} slab`, w: 440, h: 440 })}
     </span>
@@ -104,7 +124,7 @@ export const articleCards = (articles, imageFor) => articles.map((a, i) => `
     </div>
   </article>`).join('');
 
-/** Definition rows used for specs, office hours and contact details. */
+/** Definition rows used for office hours and contact details. */
 export const defRows = pairs => pairs.map(([k, v]) => `
   <div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
 

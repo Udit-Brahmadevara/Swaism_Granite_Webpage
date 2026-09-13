@@ -25,13 +25,14 @@ GRANITE_NAMES = {
     'RED_MULTI_GRANITE.jpg': 'red-multi',          'Tan_brown.jpg': 'tan-brown',
     'ultimate_black_granite.jpg': 'ultimate-black','Viscount_white.jpg': 'viscount-white',
     'indian-aurora-slab-original.png': 'indian-aurora-slab',
+    'Emerald-Green.jpg': 'emerald-green',          'Kuppam-Green.jpg': 'kuppam-green',
 }
 
 # (display size, thumbs size) — the long edge, in pixels. Facility photos are
 # landscape and fill the About page's tall gallery frame, which shows the thumbs/
 # copy; at 640px they would be upscaled and soft, so they get a larger one.
 SIZES = {'granite': (1000, 440), 'monuments': (1600, 640), 'facility': (1600, 1200),
-         'hero': (1600, 640)}
+         'hero': (1600, 640), 'infrastructure': (1200, 640)}
 QUALITY = {'jpg': 82, 'webp': 78}
 
 def emit(im, stem, out_dir, edge):
@@ -60,8 +61,9 @@ for f in sorted((SRC / 'granite').glob('*')):
 for i, f in enumerate(sorted((SRC / 'monuments').glob('*.jpeg')), 1):
     process(f, f'm{i:02d}', 'monuments'); total += 1
 
-# Facility and hero photos keep their own names (plant-frontage.jpeg -> plant-frontage).
-for kind in ('facility', 'hero'):
+# Facility, hero and infrastructure photos keep their own names
+# (plant-frontage.jpeg -> plant-frontage).
+for kind in ('facility', 'hero', 'infrastructure'):
     for f in sorted((SRC / kind).glob('*')):
         if f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
             process(f, f.stem.lower(), kind); total += 1

@@ -19,7 +19,7 @@
  * by the browser outright (net::ERR_FAILED) — which broke every internal link
  * for returning visitors before this was fixed.
  */
-const CACHE = 'swasim-cd958278';
+const CACHE = 'swasim-7bc52187';
 
 /* Enough to render any page offline after the first visit. URLs are in the
    extensionless form the host serves, so none of them redirect. 404.html is
@@ -73,7 +73,10 @@ self.addEventListener('fetch', e => {
   };
 
   if (isForever(url)) {
-    e.respondWith(caches.match(request).then(hit => hit || fetch(request).then(store)));
+    // A miss goes to the server, not the HTTP cache. Photos are regenerated in
+    // place (same name, new bytes); a new release empties this cache, and the
+    // refetch must not refill it with the previous photo from the browser cache.
+    e.respondWith(caches.match(request).then(hit => hit || fetch(request, { cache: 'no-cache' }).then(store)));
     return;
   }
 

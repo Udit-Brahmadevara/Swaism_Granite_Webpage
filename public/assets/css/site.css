@@ -115,27 +115,23 @@
   --lift-lg: 0 22px 60px rgba(25, 28, 30, .09);
   --lift-xl: 0 40px 90px rgba(0, 0, 0, .55);
 
-  /* Brand gradient: quarry green resolving into the logo's gold.
-     --brand-gradient is tuned for tall boxes (the hero); --brand-gradient-band
-     pulls the gold stop inside the box so it still reads on a short, wide
-     masthead, where a 132% stop would fall off-canvas entirely. */
+  /* Brand gradient: quarry green resolving into the logo's gold, tuned for
+     tall boxes (the hero). */
   --brand-gradient:      linear-gradient(118deg, var(--green-deep) 0%, var(--green) 42%, #166138 74%, #B98800 132%);
-  /* The logo's own orange, sampled from the mark: #E09D08.
-     Inner-page mastheads sit on it almost flat — just enough tonal shift to
-     stop a large field reading as dead paint. Cream text scores 2.2 on this
-     colour and fails, ink scores 7.3, so masthead copy runs dark here, the
-     same pairing the gold CTA buttons already use. */
-  --logo-orange:         #E09D08;   /* the mark's own orange, kept as the reference */
-  /* Mastheads run a shade deeper than the mark so the large field reads as a
-     surface rather than a highlight, while staying the same hue. */
-  --brand-gradient-band: linear-gradient(104deg, #B57B04 0%, #C08606 58%, #C99313 100%);
 
-  /* ---- masthead comparison variants (see .masthead--ink / --saffron) ------
-     Temporary, for choosing a direction. Delete the two modifiers and their
-     rules once a colour is picked; the base .masthead needs no change. */
-  --saffron:             #FF9933;   /* the India flag's saffron, for reference */
-  --navy:                #16243D;   /* deep slate navy — masthead variant */
-  --band-saffron:        linear-gradient(104deg, #834E19 0%, #8C541C 58%, #96591F 100%);
+  /* Page mastheads: one logo colour per page (README, "Colour"). Sampled from
+     the mark: green #134932, gold #E09D08 (the G), blue #1B4AA8 and red
+     #C61E1D (the bars). Each band sits close to its colour, a shade deeper
+     where the copy needs it, and almost flat: just enough tonal shift to stop a
+     large field reading as dead paint. */
+  --logo-orange:         #E09D08;   /* the mark's own gold, kept as the reference */
+  --logo-blue:           #1B4AA8;
+  --logo-red:            #C61E1D;
+  /* Gold: ink copy 6.2:1 at the darkest stop; cream fails (2.6:1). */
+  --brand-gradient-band: linear-gradient(104deg, #CC9008 0%, #D59A0A 58%, #DDA416 100%);
+  --band-green:          linear-gradient(104deg, #0A3A22 0%, #0C4228 58%, #0F4C2E 100%);
+  --band-blue:           linear-gradient(104deg, #163E92 0%, #1B4AA8 58%, #2253B4 100%);
+  --band-red:            linear-gradient(104deg, #A8191A 0%, #B21D1D 58%, #BD2220 100%);
 
   --radius:    3px;
   --radius-lg: 4px;
@@ -171,12 +167,13 @@ a:hover { color: var(--gold); }
 :where(p, li) { text-wrap: pretty; }
 
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
-/* Dark and photographic grounds: gold reads at 4-7:1 on green, ink and navy. */
-.hero, .band--green, .band--dark, .site-footer, .trust, .carousel, .plant,
+/* Dark and photographic grounds: gold reads at 4-7:1 on green and ink. */
+.hero, .band--green, .band--dark, .site-footer, .carousel, .plant,
 .stone-detail__img, .lightbox, .hairline--dark,
-.masthead.masthead--ink, .masthead.masthead--navy { --focus: var(--gold); }
-/* Gold on saffron is the same hue family and vanishes; cream measures 5.8:1. */
-.masthead.masthead--saffron { --focus: var(--paper); }
+.masthead.masthead--green { --focus: var(--gold); }
+/* Gold measures under 3:1 at the light end of the blue and red mastheads;
+   cream is 5.8:1 or better on both. */
+.masthead.masthead--blue, .masthead.masthead--red { --focus: var(--paper); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 200;
@@ -319,6 +316,30 @@ a:hover { color: var(--gold); }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .site-footer a, .site-footer li { font-size: 13.5px; color: var(--on-dark); }
 .site-footer a:hover { color: var(--gold); }
+/* Icon links under the brand line: a row, where the footer's other lists are
+   columns. The icons are stroked in currentColor, so the link colour and its
+   gold hover carry through; the ring follows the hover too. */
+.site-footer .foot-social { flex-direction: row; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+/* Six icons in one row need 270px (6 x 40px + 5 x 6px), or 328px at touch size
+   (6 x 48px + 5 x 8px). A brand column narrower than that gets two even rows of
+   three rather than five and a stray one. Measured on the column itself, since
+   its width depends on the footer grid, not directly on the viewport. */
+.foot-brand { container-type: inline-size; }
+@container (max-width: 269px) {
+  .site-footer .foot-social { display: grid; grid-template-columns: repeat(3, max-content); }
+}
+.foot-social__link {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(249, 248, 243, .28); transition: color var(--ease), border-color var(--ease);
+}
+a.foot-social__link:hover { border-color: var(--gold); }   /* an icon awaiting its URL stays still */
+@media (max-width: 900px) {
+  .foot-social__link { width: 48px; height: 48px; }   /* touch target */
+  .site-footer .foot-social { gap: 8px; }
+  @container (max-width: 327px) {
+    .site-footer .foot-social { display: grid; grid-template-columns: repeat(3, max-content); }
+  }
+}
 .site-footer__base {
   max-width: var(--shell); margin-inline: auto; padding-top: 16px;
   display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
@@ -331,13 +352,13 @@ a:hover { color: var(--gold); }
 @media (max-width: 700px) {
   .site-footer { padding: 32px var(--gutter) 22px; }
   .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 22px 20px; padding-bottom: 20px; }
-  /* Source order is brand, nav, contact, certs. Because contact spans the full
-     width it breaks the row, which left nav and certs stranded on rows of their
-     own — all four stacked. Reorder so the two short lists pair up. */
+  /* Source order is brand, nav, contact, affiliations. Because contact spans
+     the full width it breaks the row, which left nav and affiliations stranded
+     on rows of their own, all four stacked. Reorder so the two short lists pair up. */
   .foot-brand, .foot-contact { grid-column: 1 / -1; }
   .foot-brand { order: 1; }
   .foot-nav   { order: 2; }
-  .foot-certs { order: 3; }
+  .foot-affiliations { order: 3; }
   .foot-contact { order: 4; }
   .site-footer img { height: 46px; margin-bottom: 10px; }
   .foot-brand p { max-width: none; }
@@ -366,6 +387,17 @@ a:hover { color: var(--gold); }
 @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .rise    { animation: riseIn .7s ease both; }
 .rise--slow { animation-duration: .9s; }
+
+/* Scroll reveal (core/reveal.js). The hidden state only ever comes from script,
+   and siblings arrive one after another. `html` lifts these above a
+   component's own `transition` so both properties animate. */
+html [data-reveal] { transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+html [data-reveal="pending"] { opacity: 0; transform: translateY(22px); }
+html [data-reveal]:nth-child(2) { transition-delay: .08s; }
+html [data-reveal]:nth-child(3) { transition-delay: .16s; }
+html [data-reveal]:nth-child(4) { transition-delay: .24s; }
+html [data-reveal]:nth-child(5) { transition-delay: .32s; }
+html [data-reveal]:nth-child(6) { transition-delay: .40s; }
 
 .badges { display: flex; gap: 14px; flex-wrap: wrap; }
 .badge {
@@ -412,14 +444,6 @@ a:hover { color: var(--gold); }
 .corner-tr { right: -14px; top: -14px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
 .corner-bl { left: -14px; bottom: -14px; border-bottom: 2px solid rgba(249,248,243,.3); border-left: 2px solid rgba(249,248,243,.3); }
 
-/* Trust strip -------------------------------------------------------------- */
-.trust { border-top: 1px solid rgba(249,248,243,.1); background: rgba(0,0,0,.28); }
-.trust ul {
-  list-style: none; margin: 0 auto; padding: 18px var(--gutter); max-width: var(--shell);
-  display: flex; gap: 44px; flex-wrap: wrap; justify-content: center;
-  font-family: var(--font-label); font-size: 12px; letter-spacing: .28em; color: rgba(249,248,243,.45);
-}
-
 /* Page masthead ------------------------------------------------------------ */
 .masthead {
   position: relative; overflow: hidden; color: var(--ink);
@@ -456,106 +480,85 @@ a:hover { color: var(--gold); }
 .masthead .search:focus-within { border-color: var(--green-deep); }
 
 /* ==========================================================================
-   Masthead variants — for comparison only
-     about.html       -> .masthead--ink      (the original near-black)
-     what-we-do.html  -> .masthead--saffron  (deep India-flag saffron)
-   Every other page uses the base orange. Delete both blocks and the two class
-   names in the markup once a direction is chosen.
+   Masthead colours: one logo colour per page, set by a modifier on the page's
+   <section class="masthead"> in tools/pages.py. The base .masthead above is
+   the gold; green, blue and red are dark grounds, so copy inverts to cream.
 
    Selectors are doubled (.masthead.masthead--x) on purpose: the base rules
    .masthead p / .eyebrow / .chip are declared LATER in this file, so at equal
    specificity they would win on source order and paint dark ink on a dark
-   ground — which is exactly what happened first time round.
+   ground.
    ========================================================================== */
 
-/* Shared: both variants are dark grounds, so the base masthead's ink-on-orange
-   treatment inverts back to cream copy. */
-.masthead.masthead--ink,
-.masthead.masthead--navy,
-.masthead.masthead--saffron { color: var(--paper); }
-.masthead.masthead--ink p,
-.masthead.masthead--navy p { color: var(--on-dark); }
-/* Saffron is a much lighter ground than the near-black: cream at the shared
-   72% measures 3.55:1 there and misses AA, so it runs near-solid. */
-.masthead.masthead--saffron p { color: rgba(249, 248, 243, .94); }
-.masthead.masthead--ink .label,
-.masthead.masthead--navy .label { color: rgba(249, 248, 243, .72); }
-.masthead.masthead--saffron .label { color: rgba(249, 248, 243, .94); }
-.masthead.masthead--ink .search input,
-.masthead.masthead--navy .search input,
-.masthead.masthead--saffron .search input { color: var(--paper); }
-.masthead.masthead--ink .search,
-.masthead.masthead--navy .search,
-.masthead.masthead--saffron .search {
-  background: rgba(249, 248, 243, .08); border-color: rgba(249, 248, 243, .24);
+/* Shared by the three dark grounds. Cream at 94% measures 5.2:1 or better on
+   all of them (the red is the tightest); at 72% the blue and red would miss
+   the 4.5:1 body threshold. */
+.masthead.masthead--green,
+.masthead.masthead--blue,
+.masthead.masthead--red { color: var(--paper); }
+.masthead.masthead--green p,
+.masthead.masthead--blue p,
+.masthead.masthead--red p,
+.masthead.masthead--green .label,
+.masthead.masthead--blue .label,
+.masthead.masthead--red .label { color: rgba(249, 248, 243, .94); }
+.masthead.masthead--green .search input,
+.masthead.masthead--blue .search input,
+.masthead.masthead--red .search input { color: var(--paper); }
+.masthead.masthead--green .search,
+.masthead.masthead--blue .search,
+.masthead.masthead--red .search {
+  background: rgba(249, 248, 243, .08); border-color: rgba(249, 248, 243, .28);
 }
-.masthead.masthead--ink .search input::placeholder,
-.masthead.masthead--navy .search input::placeholder { color: rgba(249, 248, 243, .72); opacity: 1; }
-.masthead.masthead--saffron .search input::placeholder { color: rgba(249, 248, 243, .94); opacity: 1; }
+.masthead.masthead--green .search input::placeholder,
+.masthead.masthead--blue .search input::placeholder,
+.masthead.masthead--red .search input::placeholder { color: rgba(249, 248, 243, .94); opacity: 1; }
+.masthead.masthead--green .chip--on-dark,
+.masthead.masthead--blue .chip--on-dark,
+.masthead.masthead--red .chip--on-dark {
+  border-color: rgba(249, 248, 243, .40); color: var(--paper); background: transparent;
+}
 
-/* --- A. the original near-black. Gold reads well here, so accents stay gold. */
-.masthead.masthead--ink { background: var(--ink); }
-.masthead--ink .masthead__texture {
-  opacity: .28;
-  background-image:
-    repeating-linear-gradient(114deg, rgba(255,255,255,.045) 0 14px, rgba(0,0,0,.045) 14px 28px),
-    radial-gradient(ellipse 70% 55% at 22% 24%, #3a4046, transparent 70%),
-    radial-gradient(ellipse 45% 80% at 78% 66%, #0f1113, transparent 72%),
-    linear-gradient(160deg, #191C1E, #0f1113);
-}
-.masthead.masthead--ink .eyebrow      { color: var(--gold); }
-.masthead.masthead--ink .label--green { color: var(--gold); }
-.masthead.masthead--ink .chip--on-dark {
-  border-color: var(--on-dark-rule-hi); color: var(--paper); background: transparent;
-}
-.masthead.masthead--ink .chip--on-dark:hover { border-color: var(--gold); color: var(--gold); }
-.masthead.masthead--ink .chip--on-dark[aria-pressed="true"] {
-  background: var(--gold); border-color: var(--gold); color: var(--ink);
-}
-.masthead.masthead--ink .search:focus-within { border-color: var(--gold); }
-
-/* --- C. deep navy. Cream copy reads at 14.7:1 and gold at 6.3:1 here, so it
-   keeps the same accent treatment as the near-black; only the ground changes. */
-.masthead.masthead--navy { background: var(--navy); }
-.masthead--navy .masthead__texture {
+/* Green: gold accents read 5.2:1 at the deep end, where the eyebrow sits,
+   and 4.1:1 at the far edge. */
+.masthead.masthead--green { background: var(--band-green); }
+.masthead--green .masthead__texture {
   opacity: .34;
   background-image:
     repeating-linear-gradient(114deg, rgba(255,255,255,.05) 0 14px, rgba(0,0,0,.05) 14px 28px),
-    radial-gradient(ellipse 70% 55% at 22% 24%, #2b3d5e, transparent 70%),
-    radial-gradient(ellipse 45% 80% at 78% 66%, #0b1220, transparent 72%),
-    linear-gradient(160deg, #16243D, #0d1526);
+    radial-gradient(ellipse 60% 55% at 82% 78%, rgba(0,20,10,.45), transparent 74%);
 }
-.masthead.masthead--navy .eyebrow      { color: var(--gold); }
-.masthead.masthead--navy .label--green { color: var(--gold); }
-.masthead.masthead--navy .chip--on-dark {
-  border-color: var(--on-dark-rule-hi); color: var(--paper); background: transparent;
-}
-.masthead.masthead--navy .chip--on-dark:hover { border-color: var(--gold); color: var(--gold); }
-.masthead.masthead--navy .chip--on-dark[aria-pressed="true"] {
+.masthead.masthead--green .eyebrow      { color: var(--gold); }
+.masthead.masthead--green .label--green { color: var(--gold); }
+.masthead.masthead--green .chip--on-dark:hover { border-color: var(--gold); color: var(--gold); }
+.masthead.masthead--green .chip--on-dark[aria-pressed="true"] {
   background: var(--gold); border-color: var(--gold); color: var(--ink);
 }
-.masthead.masthead--navy .search:focus-within { border-color: var(--gold); }
+.masthead.masthead--green .search:focus-within { border-color: var(--gold); }
 
-/* --- B. deep India-flag saffron.
-   #FF9933 taken down to ~55%. Gold accents measure below 2.5:1 against saffron
-   at every depth — same hue family — so accents here are cream, not gold. */
-.masthead.masthead--saffron { background: var(--band-saffron); }
-.masthead--saffron .masthead__texture {
+/* Blue and red, the bars in the logo. Gold measures under 4.5:1 on both and
+   falls to 2.5:1 on the red, so accents here are cream, not gold. */
+.masthead.masthead--blue { background: var(--band-blue); }
+.masthead.masthead--red  { background: var(--band-red); }
+.masthead--blue .masthead__texture,
+.masthead--red .masthead__texture {
   opacity: .34;
   background-image:
-    repeating-linear-gradient(114deg, rgba(255,255,255,.05) 0 16px, rgba(0,0,0,.05) 16px 32px),
-    radial-gradient(ellipse 60% 55% at 82% 78%, rgba(60,24,0,.42), transparent 74%);
+    repeating-linear-gradient(114deg, rgba(255,255,255,.05) 0 14px, rgba(0,0,0,.05) 14px 28px),
+    radial-gradient(ellipse 60% 55% at 82% 78%, rgba(0,0,0,.30), transparent 74%);
 }
-.masthead.masthead--saffron .eyebrow      { color: rgba(249, 248, 243, .95); }
-.masthead.masthead--saffron .label--green { color: rgba(249, 248, 243, .95); }
-.masthead.masthead--saffron .chip--on-dark {
-  border-color: rgba(249, 248, 243, .40); color: var(--paper); background: transparent;
-}
-.masthead.masthead--saffron .chip--on-dark:hover { border-color: var(--paper); }
-.masthead.masthead--saffron .chip--on-dark[aria-pressed="true"] {
+.masthead.masthead--blue .eyebrow,
+.masthead.masthead--red .eyebrow,
+.masthead.masthead--blue .label--green,
+.masthead.masthead--red .label--green { color: rgba(249, 248, 243, .95); }
+.masthead.masthead--blue .chip--on-dark:hover,
+.masthead.masthead--red .chip--on-dark:hover { border-color: var(--paper); }
+.masthead.masthead--blue .chip--on-dark[aria-pressed="true"],
+.masthead.masthead--red .chip--on-dark[aria-pressed="true"] {
   background: var(--paper); border-color: var(--paper); color: var(--ink);
 }
-.masthead.masthead--saffron .search:focus-within { border-color: var(--paper); }
+.masthead.masthead--blue .search:focus-within,
+.masthead.masthead--red .search:focus-within { border-color: var(--paper); }
 .masthead__inner { position: relative; max-width: var(--shell); margin-inline: auto; }
 /* Copy on the orange runs at full ink: at this depth of amber, translucent
    ink drops under the 4.5:1 body-text threshold. */
@@ -575,7 +578,27 @@ a:hover { color: var(--gold); }
 }
 .card--pad { padding: 28px 26px; }
 
-.stone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 18px; }
+/* Collection marquee: one continuous row of every stone. The track holds the
+   set twice and slides left by exactly one set, so the loop has no seam.
+   home.js sets the duration from the stone count; 80s is the fallback. The
+   padding, cancelled by the negative margin, leaves room for the hover lift. */
+.marquee {
+  overflow: hidden; padding-block: 8px 34px; margin-block: -8px -34px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.marquee__track { display: flex; width: max-content; animation: marquee 80s linear infinite; }
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; gap: 18px; padding-right: 18px; }
+.marquee .stone-card { flex: 0 0 260px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  /* No movement: the row becomes a plain horizontal scroller of one set. */
+  .marquee { overflow-x: auto; }
+  .marquee__track { animation: none; }
+  .marquee__group[aria-hidden="true"] { display: none; }
+}
 .stone-card {
   display: block; border: 1px solid var(--rule); border-radius: var(--radius);
   overflow: hidden; background: var(--paper-pure); box-shadow: var(--lift-sm);
@@ -585,8 +608,8 @@ a:hover { color: var(--gold); }
 .stone-card__img { position: relative; height: 180px; overflow: hidden; background: #e8e4da; }
 .stone-card__img img { width: 100%; height: 100%; object-fit: cover; }
 .stone-card__body { padding: 16px 18px 18px; }
-.stone-card__name { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1.15; }
-.stone-card__meta { font-family: var(--font-label); font-size: 10.5px; letter-spacing: .24em; color: var(--muted); margin-top: 6px; }
+.stone-card__name { display: block; font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1.15; }
+.stone-card__meta { display: block; font-family: var(--font-label); font-size: 10.5px; letter-spacing: .24em; color: var(--muted); margin-top: 6px; }
 
 /* Stat rail ---------------------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 26px; }
@@ -621,8 +644,6 @@ a:hover { color: var(--gold); }
 .chip--gold[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 .chip--on-dark { border-color: var(--on-dark-rule-hi); color: var(--paper); }
 .chip--on-dark[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-.chip--finish { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; letter-spacing: .1em; padding: 10px 18px; background: var(--paper-pure); }
-.chip--finish[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 
 /* Colour comes from a modifier class, never a style attribute: the CSP
    (style-src 'self') strips inline styles, which left white type on the bare
@@ -697,14 +718,19 @@ a:hover { color: var(--gold); }
 .stone-detail[data-fading="true"] .stone-detail__img img { opacity: 0; transform: scale(1.04); }
 .stone-detail[data-fading="true"] .stone-detail__body { opacity: .25; }
 .stone-detail__chips { position: absolute; left: 20px; top: 20px; display: flex; gap: 8px; }
-.stone-detail__format {
-  position: absolute; left: 20px; bottom: 18px; font-family: var(--font-mono);
-  font-size: 10.5px; letter-spacing: .06em; color: rgba(255,255,255,.8); background: rgba(0,0,0,.42); padding: 6px 10px;
-}
 .stone-detail__body { padding: 30px 32px 34px; transition: opacity .3s ease; }
 .stone-detail__body h2 { font-family: var(--font-display); font-size: 38px; font-weight: 600; margin: 0 0 4px; line-height: 1.05; }
 .stone-detail__tagline { font-family: var(--font-label); font-size: 12px; letter-spacing: .3em; color: var(--gold); margin-bottom: 18px; }
 .stone-detail__body p { font-size: 15px; line-height: 1.72; color: var(--body); margin: 0 0 26px; }
+/* A stone's facts (catalogue.js): label beside text, hairlines between rows;
+   stacked on narrow screens. */
+.stone-facts { margin: 0 0 26px; border-top: 1px solid var(--rule); }
+.stone-facts > div { display: grid; grid-template-columns: 118px 1fr; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.stone-facts dt { font-family: var(--font-label); font-size: 11px; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.stone-facts dd { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--body); }
+@media (max-width: 520px) { .stone-facts > div { grid-template-columns: 1fr; gap: 4px; } }
 
 .thumb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 @media (max-width: 620px) { .thumb-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -806,8 +832,7 @@ a:hover { color: var(--gold); }
 .locator__body { padding: 20px 22px; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .locator__place  { margin: 0; font-family: var(--font-label); font-size: 15px;
   letter-spacing: .12em; text-transform: uppercase; color: var(--green); }
-.locator__region { margin: 0; font-size: 13.5px; color: var(--body); }
-.locator__coords { margin: 2px 0 14px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.locator__region { margin: 0 0 14px; font-size: 13.5px; color: var(--body); }
 .locator__go { align-self: flex-start; }
 
 @media (max-width: 560px) {
@@ -945,16 +970,11 @@ a:hover { color: var(--gold); }
 
 .hero-actions { margin-bottom: 48px; }
 
-/* Featured lots: a horizontal, snapping rail instead of a wrapped grid. */
+/* Featured lots: the rail head above the collection marquee. */
 .rail__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 @media (max-width: 900px) {
-  .stone-grid {
-    display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px;
-    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .stone-grid::-webkit-scrollbar { display: none; }
-  .stone-grid .stone-card { flex: 0 0 74%; scroll-snap-align: start; }
+  .marquee__group { gap: 14px; padding-right: 14px; }
+  .marquee .stone-card { flex-basis: 220px; }
   .stone-card__img { height: 150px; }
 }
 
@@ -1062,16 +1082,7 @@ a:hover { color: var(--gold); }
   cursor: pointer; border-radius: 2px; transition: border-color var(--ease), color var(--ease);
 }
 .stone-detail__nav button:hover { border-color: var(--gold); color: var(--gold); }
-/* the format note shares the lower edge with the dots */
-.stone-detail__dots ~ .stone-detail__format { bottom: 26px; }
 
-/* Specs read as a single row of four, per the reference layout. Values never
-   wrap mid-figure ("2,780 kg/m³" must stay on one line). */
-.stone-detail .hairline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.stone-detail .hairline dd { white-space: nowrap; }
-/* Hold four across while the detail panel can carry them; the labels wrap to
-   two lines (as in the reference) long before the row needs to break. */
-@media (max-width: 1000px) { .stone-detail .hairline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 900px) {
   .stone-detail__nav { flex-direction: row; top: auto; bottom: 30px; right: 14px; transform: none; }
   .stone-detail__nav button { width: 44px; height: 44px; }
@@ -1095,6 +1106,15 @@ a:hover { color: var(--gold); }
 .product__name { font-family: var(--font-display); font-size: 24px; font-weight: 600;
   line-height: 1.15; margin: 0; color: var(--ink); }
 .product__copy { font-size: 15px; line-height: 1.65; color: var(--body); margin: 0; }
+/* A tile with a photograph: the image runs edge to edge across the top, and
+   eases in a little on hover. The credit sits last, small, after the copy. */
+.product--photo { padding-top: 0; overflow: hidden; }
+.product__img { margin: 0 -26px 6px; aspect-ratio: 16 / 10; overflow: hidden; background: var(--paper); }
+.product__img picture { display: block; height: 100%; }
+.product__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s ease; }
+@media (hover: hover) { .product--photo:hover .product__img img { transform: scale(1.05); } }
+.product__credit { margin: auto 0 0; padding-top: 4px; font-size: 11.5px; line-height: 1.4; color: var(--body); opacity: .75; }
+.product__credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
 /* The merged offer runs the full row, title beside copy so the wider measure
    does not leave a single long line of text. */
@@ -1106,6 +1126,42 @@ a:hover { color: var(--gold); }
   }
   .product--wide .product__name { font-size: 26px; }
   .product--wide .product__copy { max-width: 62ch; }
+}
+
+/* Home: affiliations. Logo tiles: each body's mark with its short and full
+   name beneath, centred. */
+.affiliations {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+/* White tiles on the cream band, like the What We Do product cards, so a logo
+   supplied on a white ground (STONA's is) sits flush rather than in a box. */
+.affiliation {
+  position: relative;
+  border: 1px solid var(--rule); border-top: 3px solid var(--green);
+  border-radius: var(--radius-lg); background: var(--paper-pure); box-shadow: var(--lift-sm);
+  padding: 30px 22px 26px; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; text-align: center;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.affiliation > * { margin: 0; }
+/* Logos arrive in every shape: hold them to one height. The files are 112px
+   tall, so 72px stays sharp on a 1.5x screen. */
+.affiliation__logo { height: 72px; width: auto; max-width: 180px; object-fit: contain;
+  margin-bottom: 10px; transition: transform .45s ease; }
+.affiliation__abbr { font-family: var(--font-display); font-size: 28px; font-weight: 600;
+  line-height: 1; letter-spacing: .02em; color: var(--green); }
+/* Hover, where there is one: the tile lifts, the logo grows a touch, and a gold
+   rule sweeps across the green top edge. Touch screens skip it, since a tap
+   would leave the tile stuck mid-lift. */
+.affiliation::before {
+  content: ""; position: absolute; left: -1px; right: -1px; top: -3px; height: 3px;
+  background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .45s ease;
+}
+@media (hover: hover) {
+  .affiliation:hover { transform: translateY(-6px); box-shadow: var(--lift-lg); }
+  .affiliation:hover::before { transform: scaleX(1); }
+  .affiliation:hover .affiliation__logo { transform: scale(1.08); }
 }
 
 /* ==========================================================================
@@ -1162,6 +1218,9 @@ a:hover { color: var(--gold); }
 
 /* What We Do — product grid */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 22px; }
+/* Six capability tiles: three across on a desktop shell (two even rows) rather
+   than four and a half-empty second row; two across on tablets. */
+.product-grid--thirds { grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); }
 
 /* Testimonials */
 .quote-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; }
@@ -1192,9 +1251,6 @@ a:hover { color: var(--gold); }
 .feature__excerpt { font-size: 15.5px; line-height: 1.7; color: var(--body); margin: 0; max-width: 520px; }
 
 /* Catalogue — detail panel internals */
-.stone-detail__label    { margin-bottom: 12px; }
-.stone-detail__finishes { margin-bottom: 28px; }
-.stone-detail__specs    { margin-bottom: 28px; }
 .stone-detail__actions  { align-items: center; }
 
 /* Contact */
@@ -1285,30 +1341,34 @@ a:hover { color: var(--gold); }
    Values match the rendered heights; update them if the content changes.
    ========================================================================== */
 .site-header { min-height: 92px; }
-.site-footer { min-height: 361px; }
+.site-footer { min-height: 320px; }
 [data-badges]     { min-height: 75px; }
 [data-stats]      { min-height: 89px; }
-[data-trust]      { min-height: 55px; }
-[data-featured]   { min-height: 198px; }   /* one card row; more wrap below */
+[data-featured]   { min-height: 310px; }   /* one marquee row, plus its hover-lift padding */
+[data-affiliations] { min-height: 176px; }
 [data-thumbs]     { min-height: 420px; }
 [data-products]   { min-height: 380px; }
+[data-capabilities] { min-height: 316px; }
 [data-journey]    { min-height: 120px; }
 [data-contents]   { min-height: 180px; }
-[data-contact-lines] { min-height: 210px; }
-[data-hours]      { min-height: 140px; }
+[data-contact-lines] { min-height: 289px; }
+[data-hours]      { min-height: 162px; }
 [data-worldmap]   { min-height: 470px; }
 [data-testimonials] { min-height: 300px; }
 [data-filters]    { min-height: 34px; }
 /* The catalogue detail panel is rendered by script. Hold the default stone's
    height until it arrives; :empty stops applying the moment it does, so this
-   never clamps a longer description. Measured range 841–867px. */
-.stone-detail:empty { min-height: 867px; }
+   never clamps a longer stone. Measured range 831–878px (the default stone is
+   the tallest); 888–1036px on phones. */
+.stone-detail:empty { min-height: 878px; }
 
 @media (max-width: 900px) {
-  .site-footer { min-height: 566px; }
-  [data-featured] { min-height: 240px; }
-  [data-thumbs], [data-products], [data-worldmap] { min-height: 0; }
+  .site-footer { min-height: 673px; }
+  [data-contact-lines] { min-height: 343px; }   /* the full address wraps */
+  [data-featured] { min-height: 302px; }
+  [data-thumbs], [data-products], [data-capabilities], [data-worldmap], [data-affiliations] { min-height: 0; }
   [data-filters]    { min-height: 52px; }   /* 48px touch-target chips + scroll gutter */
+  .stone-detail:empty { min-height: 1036px; }   /* facts rows stack at this width */
   [data-hero-stats] { min-height: 100px; }
   /* Without these the phone catalogue shifted 0.26 on a 300ms link: the filter
      row pushed the grid down, then the detail panel pushed the footer away. */
