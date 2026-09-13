@@ -144,7 +144,7 @@ just the files in `public/`. Everything about the deployment lives in
 
 | Environment | Worker | Domain | Command |
 |---|---|---|---|
-| Staging — client review | `swasim-staging` | `staging.swasimgranite.com` | `npm run deploy:staging` |
+| Staging — client review | `swasim-staging` | `preview.swasimgranite.com` | `npm run deploy:staging` |
 | Production | `swasim-site` | `www.swasimgranite.com` + `swasimgranite.com` | `npm run deploy:production` |
 
 Both commands run `npm run check` first and stop if it fails. The top level of
@@ -154,7 +154,7 @@ domain. The first deploy asks you to log in (`npx wrangler login`).
 Staging differs from production in three deliberate ways:
 
 - it sits behind **Cloudflare Access** (a Zero Trust self-hosted application on
-  `staging.swasimgranite.com` that admits only the listed emails)
+  `preview.swasimgranite.com` that admits only the listed emails)
 - `_headers` marks it `noindex`
 - it never installs the service worker, so after each deploy the client sees
   the new build on an ordinary refresh

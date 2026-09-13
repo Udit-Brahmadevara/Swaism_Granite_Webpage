@@ -19,7 +19,7 @@
  * by the browser outright (net::ERR_FAILED) — which broke every internal link
  * for returning visitors before this was fixed.
  */
-const CACHE = 'swasim-fe986e17';
+const CACHE = 'swasim-94a5b7b6';
 
 /* Enough to render any page offline after the first visit. URLs are in the
    extensionless form the host serves, so none of them redirect. 404.html is

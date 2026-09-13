@@ -10,7 +10,7 @@
  * worker is never installed, and any worker or cache left by an earlier visit
  * is removed, so an ordinary refresh always shows the latest build.
  */
-const STAGING = location.hostname.startsWith('staging.');
+const STAGING = location.hostname.startsWith('preview.');   // the client-review host
 
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   if (STAGING) {
