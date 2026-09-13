@@ -39,7 +39,7 @@ export async function initWorldMap(selector) {
             aria-pressed="${x.key === selected}">${esc(x.name)}</button>`).join('')}
       </div>
       <div class="worldmap__body">
-        <div class="label worldmap__since">${esc(m.since)}</div>
+        ${m.since ? `<div class="label worldmap__since">${esc(m.since)}</div>` : ''}
         <h3>${esc(m.name)}</h3>
         <div class="worldmap__lead">${esc(m.lead)}</div>
         <p>${esc(m.body)}</p>

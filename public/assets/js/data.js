@@ -15,7 +15,7 @@ export const COMPANY = {
   phone: '+91 94488 41482',
   phoneHref: '+919448841482',
   email: 'swasimgranite@gmail.com',
-  markets: ['India', 'Vietnam', 'Singapore', 'Russia', 'Europe'],
+  markets: ['India', 'Vietnam', 'Singapore', 'Russia', 'Europe', 'Middle East'],
 };
 
 export const CERTIFICATIONS = [
@@ -206,27 +206,37 @@ export const MARKETS = [
     since: 'Since 2021', lead: 'Specification-grade slabs and cladding.',
     body: 'Supply to importers and façade contractors who need documented tolerances and repeatable colour across containers. Every slab is inspected twice — once at the factory, once before packing.',
     facts: ['Facade & cladding', 'Documented tolerances', 'Two-stage inspection'] },
+
+  // Countries are an assumption (the Gulf states) pending client confirmation.
+  // No `since` until the client gives a year — the panel omits the label.
+  { key: 'middle-east', name: 'Middle East',
+    countries: ['United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Oman', 'Kuwait'],
+    lead: 'Slabs and cut-to-size for Gulf projects.',
+    body: 'Polished slabs, tiles and cut-to-size granite for importers and contractors across the Gulf, shipped FOB Chennai or Tuticorin in fumigated crates and lot-matched so a large project stays consistent from the first container to the last.',
+    facts: ['FOB Chennai or Tuticorin', 'Slabs · tiles · cut-to-size', 'Lot-matched containers'] },
 ];
 
+/* Order here is the order on /articles: the first entry is the lead feature,
+   and the topic chips follow the order in which each tag first appears. */
 export const ARTICLES = [
-  { id: 'granite-vs-quartz', tag: 'BUYER GUIDE', date: 'Aug 2026', read: '6 min read',
-    title: 'Granite or engineered quartz: how to choose for a countertop run',
-    excerpt: 'Heat tolerance, seam behaviour and long-run cost differ more than the showroom sample suggests. What we tell fabricators before a large order.' },
   { id: 'reading-a-block-photo', tag: 'FROM THE YARD', date: 'Jul 2026', read: '5 min read',
     title: 'How to read a block photo set before you commit to a lot',
     excerpt: 'Four faces, water-washed, in daylight. What the corners tell you about yield, and the three things a single glamour shot always hides.' },
-  { id: 'finishes-explained', tag: 'TECHNICAL', date: 'Jun 2026', read: '4 min read',
-    title: 'Polished, honed, leathered, flamed — where each finish belongs',
-    excerpt: 'Gloss is not the same as quality. A practical map of finish to application, from wet-area flooring to exterior cladding bands.' },
-  { id: 'export-packing', tag: 'LOGISTICS', date: 'May 2026', read: '7 min read',
-    title: 'What good export packing actually looks like',
-    excerpt: 'A-frames, fumigated timber, bundle numbering and lot-matched loading — why the crate matters as much as the stone inside it.' },
   { id: 'inspection-twice', tag: 'PROCESS', date: 'Apr 2026', read: '3 min read',
     title: 'Why we inspect every slab twice',
     excerpt: 'Once on the factory floor, once again before packing. The second pass catches what handling introduces, not what cutting left behind.' },
+  { id: 'finishes-explained', tag: 'TECHNICAL', date: 'Jun 2026', read: '4 min read',
+    title: 'Polished, honed, leathered, flamed — where each finish belongs',
+    excerpt: 'Gloss is not the same as quality. A practical map of finish to application, from wet-area flooring to exterior cladding bands.' },
   { id: 'monument-lead-times', tag: 'MONUMENTS', date: 'Mar 2026', read: '5 min read',
     title: 'Planning monument lead times around carving capacity',
     excerpt: 'Carving is the bottleneck, not sawing. How to sequence a memorial order so the finishing line never sits idle.' },
+  { id: 'export-packing', tag: 'LOGISTICS', date: 'May 2026', read: '7 min read',
+    title: 'What good export packing actually looks like',
+    excerpt: 'A-frames, fumigated timber, bundle numbering and lot-matched loading — why the crate matters as much as the stone inside it.' },
+  { id: 'granite-vs-quartz', tag: 'BUYER GUIDE', date: 'Aug 2026', read: '6 min read',
+    title: 'Granite or engineered quartz: how to choose for a countertop run',
+    excerpt: 'Heat tolerance, seam behaviour and long-run cost differ more than the showroom sample suggests. What we tell fabricators before a large order.' },
 ];
 
 export const BROCHURE_CONTENTS = [

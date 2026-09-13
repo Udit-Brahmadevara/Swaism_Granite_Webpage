@@ -834,7 +834,8 @@ a:hover { color: var(--gold); }
 .worldmap__canvas[data-active="vietnam"]   path[data-market="vietnam"],
 .worldmap__canvas[data-active="singapore"] path[data-market="singapore"],
 .worldmap__canvas[data-active="russia"]    path[data-market="russia"],
-.worldmap__canvas[data-active="europe"]    path[data-market="europe"] { fill: var(--gold); }
+.worldmap__canvas[data-active="europe"]    path[data-market="europe"],
+.worldmap__canvas[data-active="middle-east"] path[data-market="middle-east"] { fill: var(--gold); }
 
 .worldmap__marker { cursor: pointer; }
 .worldmap__halo { fill: rgba(212,155,0,.18); }

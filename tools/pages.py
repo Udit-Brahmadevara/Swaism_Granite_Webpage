@@ -93,7 +93,7 @@ PAGES['index'] = dict(
         <h1 class="display display--hero">Excellence<br>Carved in <em>Stone</em></h1>
         <p class="lede">Crafting stone since 2010. We turn raw granite into premium blocks, slabs,
           tiles and monuments — handling selection, cutting, finishing and export packing in-house
-          for clients across India, Vietnam, Singapore, Russia and Europe.</p>
+          for clients across India, Vietnam, Singapore, Russia, Europe and the Middle East.</p>
         <p class="lede lede--mobile">Hosur, Tamil Nadu. Block to container, all in-house,
           since 2010.</p>
         <div class="row hero-actions">
@@ -145,7 +145,7 @@ PAGES['index'] = dict(
 PAGES['about'] = dict(
   key='about', script='about',
   title='About Us — Swasim Granite',
-  desc='Based in Hosur, Tamil Nadu, Swasim Granite has turned raw granite into premium stone products since 2010, serving India, Vietnam, Singapore, Russia and Europe.',
+  desc='Based in Hosur, Tamil Nadu, Swasim Granite has turned raw granite into premium stone products since 2010, serving India, Vietnam, Singapore, Russia, Europe and the Middle East.',
   after='',
   extra='',
   body='''
@@ -155,7 +155,7 @@ PAGES['about'] = dict(
       <p class="eyebrow">About Swasim</p>
       <h1 class="display display--page">Crafting Stone Since 2010</h1>
       <p>Based in Hosur, India, Swasim Granite has been turning raw granite into premium stone
-        products for over a decade — serving clients across India, Vietnam, Singapore, Russia and Europe.</p>
+        products for over a decade — serving clients across India, Vietnam, Singapore, Russia, Europe and the Middle East.</p>
     </div>
   </section>
 
@@ -166,7 +166,7 @@ PAGES['about'] = dict(
         <div class="prose mb-xl">
           <p>Under the leadership of Managing Director Roopesh Kumar, we've grown from a local supplier
             into a trusted name serving clients across India and international markets including
-            Vietnam, Singapore, Russia, and Europe.</p>
+            Vietnam, Singapore, Russia, Europe, and the Middle East.</p>
           <p>We handle every step in-house — from selecting the right block at the source, to precision
             cutting, finishing, and export-ready packing — so what reaches you is consistent,
             high-quality stone, every time.</p>
@@ -656,7 +656,7 @@ ORG_JSONLD = '''  <script type="application/ld+json">
       "addressRegion": "Tamil Nadu",
       "addressCountry": "IN"
     }},
-    "areaServed": ["IN", "VN", "SG", "RU", "EU"],
+    "areaServed": ["IN", "VN", "SG", "RU", "EU", "AE", "SA", "QA", "OM", "KW"],
     "knowsAbout": ["Granite blocks", "Granite slabs", "Granite tiles", "Granite monuments"]
   }}
   </script>
