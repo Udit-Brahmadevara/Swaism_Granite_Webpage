@@ -386,6 +386,9 @@ a:hover { color: var(--gold); }
   opacity: 0; transform: scale(1); transition: opacity 1s ease, transform 6s ease;
 }
 .carousel__slide[data-active="true"] { opacity: 1; transform: scale(1.06); }
+/* A tall photo in the wide desktop frame would show only its middle band;
+   HERO entries with `focus: 'top'` (data.js) keep the top in view. */
+.carousel__slide[data-focus="top"] { background-position: center 15%; }
 .carousel__scrim { position: absolute; inset: 0; background: linear-gradient(200deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.7)); }
 .carousel__caption { position: absolute; left: 26px; bottom: 26px; right: 112px; }
 .carousel__caption .kicker { font-family: var(--font-label); font-size: 11px; letter-spacing: .3em; color: var(--gold); margin-bottom: 6px; }
@@ -931,7 +934,7 @@ a:hover { color: var(--gold); }
   .hero__text .badges { display: none; }
 
   /* The artboard carries the founding stats below the fold, not over the photo. */
-  .hero__stats { display: grid; grid-template-columns: repeat(3, 1fr);
+  .hero__stats { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
     gap: 1px; background: var(--rule); border-block: 1px solid var(--rule); }
   .hero__stats .badge { border: 0; background: var(--paper); border-radius: 0; padding: 18px 14px; }
   .hero__stats .badge b { color: var(--green); }

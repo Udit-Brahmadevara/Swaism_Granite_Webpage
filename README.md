@@ -314,6 +314,7 @@ every width and only the supporting sentence switches.
 |---|---|
 | Change page copy or structure | `tools/pages.py`, then `npm run pages` |
 | Change a price, spec or description | `public/assets/js/data.js` → `GRANITES` |
+| Change the home carousel | `data.js` → `HERO`: a photo slide is `{ img, name, kicker, alt }` (photo into `source-assets/hero/`, then `npm run images`); a catalogue stone is `{ stone: 'viscount-white' }`. Run `npm run pages` if the first slide changes |
 | Add a stone | Master into `source-assets/granite/`, a line in `GRANITE_NAMES` in `tools/build-images.py`, `npm run images`, then append to `GRANITES` |
 | Give a stone multiple photos | Add `images: [{ src, alt }, …]` to it — arrows, dots and swipe appear automatically |
 | Add monument photos | Masters into `source-assets/monuments/`, `npm run images`, bump the count in `MONUMENTS` |
@@ -349,11 +350,12 @@ Done, and verified by `npm run check` / `npm run verify` where it can be:
 **Still open:**
 
 1. **Cloudflare:** Always Use HTTPS, and the apex → `www` redirect (see "Deploying").
-2. **Contact form delivery** — the most important open item. The form validates
-   and then opens the visitor's mail client; on a work desktop with no mail
-   client configured that is a dead end and a lost B2B lead. Set
-   `FORM_ENDPOINT` and add its origin to `connect-src`, then update the privacy
-   policy's "delivered by email" paragraph to name the provider.
+2. **Contact form delivery.** The form validates and then opens WhatsApp (app
+   or WhatsApp Web) with the enquiry pre-filled, and the buyer presses send.
+   A buyer without WhatsApp only gets the note pointing them to the email
+   address. For delivery that asks nothing of the buyer, set `FORM_ENDPOINT`
+   and add its origin to `connect-src`, then rewrite the privacy policy's
+   "How it reaches us" paragraph to name the provider.
 3. **Masthead colour** — pick one of the treatments above.
 4. **Client sign-off on factual claims:** ISO 9001:2015, CE-marked slabs,
    45,000 sqm monthly capacity, the "since" year for each export market, every
@@ -366,9 +368,12 @@ Done, and verified by `npm run check` / `npm run verify` where it can be:
    article pages yet, so the cards are deliberately not links.
 7. **Brochure PDF** — `/brochure` describes the contents and routes to the
    contact form. Link the PDF when it exists.
-8. **Stone photography** — every granite master is 1000×1000 and looks soft on a
-   full-width phone hero. Confirm the photos show the client's own stone and are
-   licensed, and replace them with larger originals where possible.
+8. **Photography** — every granite master is 1000×1000, and the two quarry
+   photographs in the home carousel (`source-assets/hero/`) are only 540 and 700px
+   wide, so they look soft on a full-width phone hero. The quarry photographs in
+   particular do not look like the client's quarry. Confirm every photo shows the
+   client's own stone, plant or quarry and is licensed, and replace with larger
+   originals.
 9. **Hero carousel pause control** — it pauses on hover and focus and respects
    reduced motion, but WCAG 2.2.2 asks for a visible pause button on content that
    rotates for more than five seconds.

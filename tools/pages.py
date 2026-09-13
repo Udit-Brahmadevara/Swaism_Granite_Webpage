@@ -34,7 +34,7 @@ SHARE_IMAGE = f'{SITE_URL}/assets/img/share-card.jpg'
 # Edit by hand, and only when the policy text itself changes. Deliberately not
 # derived from the build date: a stylesheet tweak must not silently re-date a
 # legal document, because the date is the reader's only record of what changed.
-POLICY_UPDATED = '8 September 2026'
+POLICY_UPDATED = '13 September 2026'
 
 HEAD = '''<!DOCTYPE html>
 <html lang="en">
@@ -94,8 +94,8 @@ PAGES['index'] = dict(
         <p class="lede">Crafting stone since 2010. We turn raw granite into premium blocks, slabs,
           tiles and monuments — handling selection, cutting, finishing and export packing in-house
           for clients across India, Vietnam, Singapore, Russia and Europe.</p>
-        <p class="lede lede--mobile">Hosur, Tamil Nadu. Block to container, in-house —
-          exporting to five markets since 2010.</p>
+        <p class="lede lede--mobile">Hosur, Tamil Nadu. Block to container, all in-house,
+          since 2010.</p>
         <div class="row hero-actions">
           <a class="btn btn--primary" href="/catalogue">Explore the Catalogue</a>
           <a class="btn btn--ghost" href="/what-we-do">What We Do</a>
@@ -554,10 +554,13 @@ PAGES['privacy'] = dict(
         (IP address, time of request, page requested) for security and diagnostics.</p>
 
       <h2>How it reaches us</h2>
-      <p>The enquiry form is delivered to us by email. If you instead use the <em>Call</em>,
-        <em>WhatsApp</em> or email links on the site, those open your own phone or email
-        application — this website does not see or record anything you send that way, and your
-        use of WhatsApp is governed by WhatsApp's own privacy terms, not ours.</p>
+      <p>The enquiry form sends nothing from this website. When you press
+        <em>Send B2B Inquiry</em>, it opens WhatsApp with your enquiry typed out, and it reaches
+        us only if you send that message from your own WhatsApp account — which, as with any
+        WhatsApp message, also shows us your number and profile name. The <em>Call</em>,
+        <em>WhatsApp</em> and email links on the site likewise open your own phone, WhatsApp or
+        email application. This website does not see or record anything you send those ways, and
+        your use of WhatsApp is governed by WhatsApp's own privacy terms, not ours.</p>
 
       <h2>Cookies and tracking</h2>
       <p>This site sets no cookies of any kind, and there is nothing to consent to. We do not use
@@ -699,11 +702,16 @@ def first_hero_image():
     """The first hero slide is the homepage's largest paint. Read it from the
     content model, so reordering HERO in data.js cannot leave a stale preload."""
     data = (SITE / 'assets/js/data.js').read_text(encoding='utf-8')
-    hero = re.search(r"export const HERO = \[\s*\{\s*id:\s*'([^']+)'", data)
-    stone = hero and re.search(r"\{ id: '" + re.escape(hero.group(1)) + r"'[^}]*?img: '([^']+)'", data)
-    if not stone:
-        raise SystemExit('pages.py: could not find the first HERO stone and its img in data.js')
-    return re.sub(r'\.(jpe?g|png)$', '.webp', stone.group(1))
+    # First entry of HERO, skipping any // comment lines before it. A slide is
+    # either { img: '...' } or { stone: '<id>' }, whose photo lives in GRANITES.
+    first = re.search(r"export const HERO = \[\s*(?://[^\n]*\n\s*)*\{([^}]*)\}", data)
+    img = first and re.search(r"img:\s*'([^']+)'", first.group(1))
+    if first and not img:
+        stone = re.search(r"stone:\s*'([^']+)'", first.group(1))
+        img = stone and re.search(r"\{ id: '" + re.escape(stone.group(1)) + r"'[^}]*?img: '([^']+)'", data)
+    if not img:
+        raise SystemExit('pages.py: could not work out the first HERO slide image in data.js')
+    return re.sub(r'\.(jpe?g|png)$', '.webp', img.group(1))
 
 
 def preloads(script, hero_image=None):

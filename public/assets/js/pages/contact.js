@@ -3,7 +3,7 @@
  *
  * `FORM_ENDPOINT` is the one line to change when a handler is chosen
  * (Formspree, Netlify Forms, a custom API). Until then the form validates and
- * hands off to the visitor's mail client.
+ * opens WhatsApp with the enquiry typed out, for the buyer to send.
  */
 import { GRANITES, FINISHES, COMPANY, OFFICE_HOURS } from '../data.js';
 import { esc, qs, mount } from '../core/dom.js';
@@ -11,6 +11,7 @@ import { defRows } from '../components/cards.js';
 import '../components/chrome.js';
 
 const FORM_ENDPOINT = null;   // e.g. 'https://formspree.io/f/xxxxxxx'
+const WHATSAPP = `https://wa.me/${COMPANY.phoneHref.replace('+', '')}`;
 
 mount('[data-contact-lines]', defRows([
   ['Managing Director', COMPANY.md],
@@ -22,7 +23,7 @@ mount('[data-hours]', defRows(OFFICE_HOURS.map(h => [h.k, h.v])));
 
 mount('[data-contact-actions]', `
   <a class="btn btn--green" href="tel:${esc(COMPANY.phoneHref)}">Call</a>
-  <a class="btn btn--outline" href="https://wa.me/${esc(COMPANY.phoneHref.replace('+', ''))}"
+  <a class="btn btn--outline" href="${esc(WHATSAPP)}"
      target="_blank" rel="noopener noreferrer">WhatsApp</a>`);
 
 const stoneSel  = qs('[data-stones]');
@@ -98,18 +99,27 @@ form?.addEventListener('submit', async e => {
     return;
   }
 
-  // No endpoint configured: compose the enquiry as an email instead.
-  const body = [
-    `Name: ${data.name || ''}`,
-    `Company: ${data.company || ''}`,
-    `Email: ${data.email || ''}`,
-    `Destination port: ${data.port || ''}`,
-    `Stone of interest: ${stone ? stone.name : ''}`,
-    `Finish: ${data.finish || ''}`,
-    '', 'Requirement:', data.requirement || '',
+  // No endpoint configured: compose the enquiry as a WhatsApp message instead.
+  // Optional fields left blank are dropped rather than sent as empty labels.
+  const fields = [
+    ['Name', data.name],
+    ['Company', data.company],
+    ['Email', data.email],
+    ['Destination port', data.port],
+    ['Stone of interest', stone?.name],
+    ['Finish', data.finish],
+  ].filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
+  const text = [
+    `*B2B enquiry — ${stone ? stone.name : 'Swasim Granite'}*`, '',
+    ...fields, '', 'Requirement:', data.requirement || '',
   ].join('\n');
-  location.href = `mailto:${COMPANY.email}`
-    + `?subject=${encodeURIComponent('B2B enquiry — ' + (stone ? stone.name : 'Swasim Granite'))}`
-    + `&body=${encodeURIComponent(body)}`;
-  showNote(`Opening your email app addressed to ${COMPANY.email}.`);
+  const url = `${WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+  // A new tab keeps the filled form here if the buyer comes back. Still inside
+  // the click, so pop-up blockers allow it; if one refuses, use this tab.
+  const win = open(url, '_blank');
+  if (win) win.opener = null;
+  else location.href = url;
+  showNote(`Opening WhatsApp with your inquiry — press send there to reach us. `
+    + `No WhatsApp? Email ${COMPANY.email}.`);
 });
