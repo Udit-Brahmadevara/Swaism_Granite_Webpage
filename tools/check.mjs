@@ -155,7 +155,7 @@ for (const p of pages) {
 }
 
 /* 8 — every photograph must have a WebP twin and a grid-size copy ---------- */
-for (const dir of ['assets/granite', 'assets/monuments']) {
+for (const dir of ['assets/granite', 'assets/monuments', 'assets/facility'].filter(d => existsSync(join(SITE, d)))) {
   for (const f of readdirSync(join(SITE, dir)).filter(f => f.endsWith('.jpg'))) {
     const stem = f.replace(/\.jpg$/, '');
     if (!existsSync(join(SITE, dir, `${stem}.webp`)))

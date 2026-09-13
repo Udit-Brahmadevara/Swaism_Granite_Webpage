@@ -324,7 +324,7 @@ every width and only the supporting sentence switches.
 | Add a nav item | `public/assets/js/components/chrome.js` → `NAV` (`/page`, no `.html`) |
 | Add a page | A `PAGES[...]` entry in `tools/pages.py`, a controller in `js/pages/`, a `NAV` entry, `npm run pages` |
 | Change the product list | `data.js` → `PRODUCTS` (`wide: true` spans the row) — and the "Five ways" heading in `tools/pages.py` |
-| Add or replace a facility photo | `data.js` → `FACILITY` (caption and alt required) |
+| Add or replace a facility photo | Master into `source-assets/facility/`, `npm run images`, then list it in `FACILITY` in `data.js` (caption and alt required; the first entry shows first) |
 | Connect the contact form | `FORM_ENDPOINT` in `js/pages/contact.js`, **and** its origin in `connect-src` in `_headers` |
 
 ## Launch checklist

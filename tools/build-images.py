@@ -27,7 +27,10 @@ GRANITE_NAMES = {
     'indian-aurora-slab-original.png': 'indian-aurora-slab',
 }
 
-SIZES = {'granite': (1000, 440), 'monuments': (1600, 640)}
+# (display size, thumbs size) — the long edge, in pixels. Facility photos are
+# landscape and fill the About page's tall gallery frame, which shows the thumbs/
+# copy; at 640px they would be upscaled and soft, so they get a larger one.
+SIZES = {'granite': (1000, 440), 'monuments': (1600, 640), 'facility': (1600, 1200)}
 QUALITY = {'jpg': 82, 'webp': 78}
 
 def emit(im, stem, out_dir, edge):
@@ -56,7 +59,13 @@ for f in sorted((SRC / 'granite').glob('*')):
 for i, f in enumerate(sorted((SRC / 'monuments').glob('*.jpeg')), 1):
     process(f, f'm{i:02d}', 'monuments'); total += 1
 
+# Facility photos keep their own names (plant-frontage.jpeg -> plant-frontage).
+for f in sorted((SRC / 'facility').glob('*')):
+    if f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
+        process(f, f.stem.lower(), 'facility'); total += 1
+
 def mb(p): return sum(x.stat().st_size for x in p.rglob('*') if x.is_file()) / 1e6
 print(f'processed {total} photographs')
-print(f'  granite   {mb(SITE/"assets"/"granite"):.1f} MB')
-print(f'  monuments {mb(SITE/"assets"/"monuments"):.1f} MB')
+for kind in SIZES:
+    if (SITE / 'assets' / kind).exists():
+        print(f'  {kind:<10}{mb(SITE / "assets" / kind):.1f} MB')

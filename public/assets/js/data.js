@@ -226,12 +226,22 @@ export const MONUMENTS = Array.from({ length: 47 }, (_, i) => {
 /**
  * About page — facility gallery.
  *
- * Real frames from the Hosur floor, not stock. They come from the same shoot as
- * the monument set (m25 / m27 / m42 / m16), chosen because each shows a
- * different part of the operation. Captions describe only what is visible.
- * Replace with dedicated plant photography when the client commissions it.
+ * Real photographs of the Hosur plant, not stock. The first is the plant
+ * frontage (master in source-assets/facility/); the rest come from the monument
+ * shoot (m25 / m27 / m42 / m16), chosen because each shows a different part of
+ * the operation. Captions describe only what is visible.
+ *
+ * The gallery shows each image's thumbs/ copy, so a new facility photo goes into
+ * source-assets/facility/ and through `npm run images` before it is listed here.
+ *
+ * `focus: 'left' | 'right'` keeps that side of a wide photo in view where the
+ * frame crops it narrow (phones). The frontage uses it so the lettering on the
+ * gantry is not cut off.
  */
 export const FACILITY = [
+  { img: '/assets/facility/plant-frontage.jpg', focus: 'right',
+    caption: 'The plant and stone yard — Hosur facility',
+    alt: 'The Swasim Granite plant seen from the road: a large white processing shed on the left, and an orange gantry crane lettered “Swasim Granite” spanning a yard of stacked granite blocks and slabs, behind the compound wall' },
   { img: '/assets/monuments/m25.jpg',
     caption: 'Finishing floor — Hosur facility',
     alt: 'Two finishers checking a polished Imperial Red monument on the floor of the Hosur facility, with the gangsaw line behind them' },

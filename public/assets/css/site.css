@@ -1265,6 +1265,10 @@ a:hover { color: var(--gold); }
 .plant__slide { position: absolute; inset: 0; display: block; opacity: 0; transition: opacity .7s ease; }
 .plant__slide[data-active="true"] { opacity: 1; }
 .plant__slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+/* A wide photo can keep one side in view where the frame crops it narrow
+   (phones): FACILITY entries with `focus: 'left' | 'right'` in data.js. */
+.plant__slide[data-focus="left"] img  { object-position: 40% 50%; }
+.plant__slide[data-focus="right"] img { object-position: 60% 50%; }
 @media (max-width: 700px) { .site-footer .brand__mark img { height: 46px; } }
 
 /* ==========================================================================

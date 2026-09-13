@@ -20,7 +20,7 @@ if (plant) {
          file — the display-size original was ~246KB each, four of them. */
       const small = f.img.replace(/\/([^/]+)$/, '/thumbs/$1');
       return `
-      <picture class="plant__slide" data-active="${i === 0}">
+      <picture class="plant__slide" data-active="${i === 0}"${f.focus ? ` data-focus="${esc(f.focus)}"` : ''}>
         <source srcset="${esc(small.replace(/\.jpg$/, '.webp'))}" type="image/webp">
         <img src="${esc(small)}" alt="${esc(f.alt)}"
              ${i ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">
