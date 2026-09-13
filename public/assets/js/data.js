@@ -103,14 +103,40 @@ export const GRANITES = [
     specs: { strength: '196 MPa', absorption: '0.05%', hardness: '7 Mohs', density: '3,010 kg/m³' } },
 ];
 
-/** Homepage hero rotation: stone id + the yard note shown over it. */
+/**
+ * Homepage hero carousel, in the order shown. Each slide is a photograph with
+ * two caption lines laid over it: { img, name, kicker, alt }.
+ *
+ * A catalogue stone can be a slide by id — { stone: 'viscount-white' } — and its
+ * photograph, name and "TYPE · ORIGIN" kicker come from GRANITES, so the hero
+ * cannot disagree with the catalogue. Add `kicker` to override that line.
+ *
+ * Photographs for img slides go in source-assets/hero/, then `npm run images`.
+ * The first slide is the homepage's largest paint and tools/pages.py preloads
+ * it, so run `npm run pages` after changing which slide comes first.
+ */
 export const HERO = [
-  { id: 'hassan-green',   kicker: 'FEATURED BLOCK · QUARRY 04' },
-  { id: 'imperial-red',   kicker: 'GANGSAW LOT 1182 · 3CM' },
-  { id: 'blue-pearl',     kicker: 'BOOK-MATCHED PAIR · EXOTIC' },
-  { id: 'ultimate-black', kicker: 'MULTIWIRE LINE · 2CM' },
-  { id: 'indian-aurora',  kicker: 'LEATHERED FINISH · QUARRY 02' },
-].map(h => ({ ...h, stone: GRANITES.find(g => g.id === h.id) }));
+  // Quarry photographs: confirm they are the client's own, and licensed, before launch.
+  { img: '/assets/hero/quarry-1.jpg', name: 'From the quarry face', kicker: 'QUARRYING · BENCH EXTRACTION',
+    alt: 'A quarry cut into stepped benches of pale grey stone, with an excavator working a pile of broken blocks and a truck on the haul road below' },
+  { img: '/assets/hero/quarry-2.jpg', name: 'Where every block begins', kicker: 'QUARRYING · OPEN PIT',
+    alt: 'An open-pit stone quarry seen from above: stepped grey benches cut down to a turquoise pool, with trees along the rim' },
+  // Monuments from the catalogue gallery (MONUMENTS below): m10, m04, m44.
+  // focus: 'top' keeps the top of a tall photo in view in the wide desktop frame.
+  { img: '/assets/monuments/m10.jpg', focus: 'top', name: 'Heart & wings memorial', kicker: 'MONUMENTS · BLACK GRANITE',
+    alt: 'A polished black granite headstone shaped as a heart held between carved wings, standing in the workshop' },
+  { img: '/assets/monuments/m04.jpg', focus: 'top', name: 'Memorial set LPS-2', kicker: 'MONUMENT SET · 170 × 75',
+    alt: 'A complete memorial set on the workshop floor: a two-piece black granite headstone above a cream granite ledger and base, labelled LPS-2 on a chalkboard' },
+  { img: '/assets/monuments/m44.jpg', name: 'Angel & heart memorial', kicker: 'MONUMENTS · HAND-CARVED',
+    alt: 'A grey granite memorial carved as an angel with folded wings around a heart-shaped tablet' },
+  { stone: 'black-absolute' },
+  { stone: 'viscount-white' },
+].map(h => {
+  if (!h.stone) return h;
+  const g = GRANITES.find(s => s.id === h.stone);
+  return { img: g.img, name: g.name, kicker: `${g.type} · ${g.origin}`.toUpperCase(),
+           alt: `${g.name} — polished slab`, ...h };
+});
 
 export const STATS = [
   { n: '2010', l: 'FOUNDED IN HOSUR' },
@@ -120,7 +146,7 @@ export const STATS = [
 
 export const HOME_BADGES = [
   { big: '2010', small: 'FOUNDED IN HOSUR' },
-  { big: '5',    small: 'EXPORT MARKETS' },
+  { big: '8',    small: 'QUARRY-TO-EXPORT STEPS' },   // the JOURNEY list below
   { big: '100%', small: 'IN-HOUSE PROCESS' },
 ];
 

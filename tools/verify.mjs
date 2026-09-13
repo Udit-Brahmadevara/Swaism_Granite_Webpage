@@ -131,8 +131,8 @@ test(/MIN_FILL_MS/.test(contactJs.body), 'submit-timing trap is in place',
      'the timing trap is missing from contact.js');
 const endpoint = /const FORM_ENDPOINT = (.+);/.exec(contactJs.body);
 if (endpoint && endpoint[1].trim().startsWith('null')) {
-  note(`FORM_ENDPOINT is still null — the form falls back to the visitor's mail`);
-  console.log(`    client. Fine for testing, a dead end for real buyers.`);
+  note(`FORM_ENDPOINT is still null — the form hands off to the visitor's WhatsApp.`);
+  console.log(`    Buyers without WhatsApp are left with the email address.`);
 }
 
 /* ---- 5. headers --------------------------------------------------------- */
