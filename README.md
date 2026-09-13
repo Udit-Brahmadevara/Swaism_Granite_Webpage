@@ -358,7 +358,9 @@ Done, and verified by `npm run check` / `npm run verify` where it can be:
    "How it reaches us" paragraph to name the provider.
 3. **Masthead colour** — pick one of the treatments above.
 4. **Client sign-off on factual claims:** ISO 9001:2015, CE-marked slabs,
-   45,000 sqm monthly capacity, the "since" year for each export market, every
+   45,000 sqm monthly capacity, the "since" year for each export market (the
+   Middle East has none yet, and its countries — UAE, Saudi Arabia, Qatar, Oman,
+   Kuwait — are an assumption), every
    stone specification, the plant equipment described in `PROCESS`, the hero's
    lot and quarry numbers, and the plant coordinates on the contact page.
 5. **Testimonials** — the six entries in `TESTIMONIALS` are invented design copy
