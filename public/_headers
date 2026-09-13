@@ -39,7 +39,7 @@
 
 # Staging is for client review: keep it out of search results. (Cloudflare
 # Access is what actually keeps it private; this covers any gap in that.)
-https://staging.swasimgranite.com/*
+https://preview.swasimgranite.com/*
   X-Robots-Tag: noindex, nofollow
 
 /*

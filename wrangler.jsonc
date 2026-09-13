@@ -7,7 +7,7 @@
   // The top level is STAGING, so a bare `wrangler deploy` can never touch the
   // live domain. Production is the explicit `--env production`.
   //
-  //   npm run deploy:staging      staging.swasimgranite.com (client review)
+  //   npm run deploy:staging      preview.swasimgranite.com (client review)
   //   npm run deploy:production   www.swasimgranite.com — launch day onwards
 
   "name": "swasim-staging",
@@ -27,7 +27,7 @@
   "workers_dev": false,
   "preview_urls": false,
   "routes": [
-    { "pattern": "staging.swasimgranite.com", "custom_domain": true }
+    { "pattern": "preview.swasimgranite.com", "custom_domain": true }
   ],
 
   "env": {
