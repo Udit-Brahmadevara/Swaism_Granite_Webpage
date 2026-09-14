@@ -8,7 +8,7 @@
   // live domain. Production is the explicit `--env production`.
   //
   //   npm run deploy:staging      preview.swasimgranite.com (client review)
-  //   npm run deploy:production   www.swasimgranite.com — launch day onwards
+  //   npm run deploy:production   www.swasimgranite.com + swasimgranite.com
 
   "name": "swasim-staging",
   "compatibility_date": "2026-09-01",
@@ -32,15 +32,19 @@
 
   "env": {
     "production": {
-      "name": "swasim-site",
+      // The Worker that already owns www.swasimgranite.com (a route) and
+      // swasimgranite.com (a custom domain). It served the holding page before
+      // launch, so going live is a content swap with no gap.
+      "name": "swaism-granite-webpage",
       "workers_dev": false,
       "preview_urls": false,
-      // Both hostnames must be released by the holding-page Worker before the
-      // first production deploy. A redirect rule sends the bare domain to www.
-      "routes": [
-        { "pattern": "www.swasimgranite.com", "custom_domain": true },
-        { "pattern": "swasimgranite.com", "custom_domain": true }
-      ]
+      // Empty on purpose, and it must stay explicit. The two domains are
+      // attached to this Worker in the dashboard (Worker → Domains). Wrangler
+      // only publishes routes when the list is non-empty — and then REPLACES
+      // every route on the Worker — so an empty list leaves the domains alone.
+      // Deleting this line instead would make production inherit the top-level
+      // route and pull preview.swasimgranite.com onto the live Worker.
+      "routes": []
     }
   }
 }
