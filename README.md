@@ -142,43 +142,62 @@ The site deploys as a Cloudflare Worker with static assets: no Worker script,
 just the files in `public/`. Everything about the deployment lives in
 `wrangler.jsonc`, so it is version-controlled rather than dashboard state.
 
-| Environment | Worker | Domain | Command |
+| Environment | Worker (dashboard name) | Domain | Deploys on a push to |
 |---|---|---|---|
-| Staging — client review | `swasim-staging` | `preview.swasimgranite.com` | `npm run deploy:staging` |
-| Production | `swasim-site` | `www.swasimgranite.com` + `swasimgranite.com` | `npm run deploy:production` |
+| Staging — client review | `swasim-granite-preview` | `preview.swasimgranite.com` | `main` |
+| Production | `swaism-granite-webpage` | `www.swasimgranite.com` + `swasimgranite.com` | `production` |
 
-Both commands run `npm run check` first and stop if it fails. The top level of
-`wrangler.jsonc` is staging, so a bare `wrangler deploy` can never reach the live
-domain. The first deploy asks you to log in (`npx wrangler login`).
+Both Workers build from this repo with Workers Builds (**Worker → Settings →
+Build**): build command empty, deploy command `npm run deploy:staging` or
+`npm run deploy:production`, non-production branch builds off. Both commands
+run `npm run check` first and stop if it fails. Cloudflare deploys to the
+connected Worker whatever `name` the config gives. The top level of
+`wrangler.jsonc` is staging, so a bare `wrangler deploy` from a laptop can never
+reach the live domain.
+
+**Domains.** Staging's custom domain comes from `wrangler.jsonc`. Production's
+two domains are attached in the dashboard on `swaism-granite-webpage` (the route
+`www.swasimgranite.com/*` and the custom domain `swasimgranite.com`), and the
+production environment deliberately sets `"routes": []`. Wrangler only publishes
+routes when the list is non-empty, and when it does it replaces every route on
+the Worker. The empty list must stay explicit: without it, production inherits
+the top-level route and a deploy would pull `preview.swasimgranite.com` onto the
+live Worker. A redirect rule sends the bare domain to `www`, where the canonical
+URLs point.
 
 Staging differs from production in three deliberate ways:
 
-- it sits behind **Cloudflare Access** (a Zero Trust self-hosted application on
-  `preview.swasimgranite.com` that admits only the listed emails)
+- it is meant to sit behind **Cloudflare Access** (a Zero Trust self-hosted
+  application on `preview.swasimgranite.com` that admits only listed emails).
+  Not set up yet: Zero Trust needs a card on the account, even on the free plan
 - `_headers` marks it `noindex`
 - it never installs the service worker, so after each deploy the client sees
   the new build on an ordinary refresh
 
-Until launch, `www` and the bare domain belong to a separate, older Worker that
-serves the holding page (`holding/index.html`).
+### Publishing a change
 
-### Launch
+1. Open a PR and merge it into `main`. The preview site updates about a minute later.
+2. The client checks it on `preview.swasimgranite.com`.
+3. Put it live: `git switch main && git pull && git push origin main:production`.
 
-1. Client sign-off on staging; `npm run check` and `npm run verify` pass.
-2. Dashboard: **SSL/TLS → Edge Certificates → Always Use HTTPS: on**. (Safe to do
-   now — plain `http://` currently answers 200, and HSTS only protects browsers
-   that have already visited over HTTPS.)
-3. Dashboard: open the holding-page Worker → **Settings → Domains & Routes** and
-   remove `www.swasimgranite.com` and `swasimgranite.com`. Keep the Worker itself
-   as the rollback.
-4. `npm run deploy:production` — attaches both domains to `swasim-site`.
-5. Dashboard: **Rules → Redirect Rules**: redirect `swasimgranite.com` to
-   `https://www.swasimgranite.com`, keeping the path, with a 301. The canonical
-   URLs use `www`.
+### Launch (one-time)
+
+1. Client sign-off on the preview; `npm run check` and `npm run verify` pass.
+2. Dashboard: **SSL/TLS → Edge Certificates → Always Use HTTPS: on**, and
+   **Analytics & Logs → Web Analytics → Manage site → Disable** (the CSP blocks
+   its injected script, and the privacy policy promises no analytics).
+3. `git push origin main:production` to create the release branch.
+4. `swaism-granite-webpage` → **Settings → Build** → connect this repository:
+   production branch `production`, build command empty, deploy command
+   `npm run deploy:production`, non-production branch builds off. Its build
+   replaces the holding page on both domains, with no gap.
+5. Dashboard: **Rules → Redirect Rules**, wildcard pattern: request URL
+   `https://swasimgranite.com/*`, target `https://www.swasimgranite.com/${1}`,
+   301, preserve query string on.
 6. `node tools/verify.mjs --url https://www.swasimgranite.com`.
 
-To roll back, move the two domains back to the holding-page Worker, or pick an
-earlier version under the `swasim-site` Worker's **Deployments** tab.
+To roll back, open `swaism-granite-webpage` → **Deployments** and roll back to an
+earlier version. The holding page is one of them.
 
 `_headers` is also read by Netlify. On nginx or similar: gzip or brotli on;
 `public, max-age=31536000, immutable` for `/assets/fonts/`; one day for the other
