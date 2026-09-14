@@ -35,7 +35,7 @@
       // The Worker that already owns www.swasimgranite.com (a route) and
       // swasimgranite.com (a custom domain). It served the holding page before
       // launch, so going live is a content swap with no gap.
-      "name": "swaism-granite-webpage",
+      "name": "swasim-granite-webpage",
       "workers_dev": false,
       "preview_urls": false,
       // Empty on purpose, and it must stay explicit. The two domains are

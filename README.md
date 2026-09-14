@@ -145,7 +145,7 @@ just the files in `public/`. Everything about the deployment lives in
 | Environment | Worker (dashboard name) | Domain | Deploys on a push to |
 |---|---|---|---|
 | Staging — client review | `swasim-granite-preview` | `preview.swasimgranite.com` | `main` |
-| Production | `swaism-granite-webpage` | `www.swasimgranite.com` + `swasimgranite.com` | `production` |
+| Production | `swasim-granite-webpage` | `www.swasimgranite.com` + `swasimgranite.com` | `production` |
 
 Both Workers build from this repo with Workers Builds (**Worker → Settings →
 Build**): build command empty, deploy command `npm run deploy:staging` or
@@ -156,7 +156,7 @@ connected Worker whatever `name` the config gives. The top level of
 reach the live domain.
 
 **Domains.** Staging's custom domain comes from `wrangler.jsonc`. Production's
-two domains are attached in the dashboard on `swaism-granite-webpage` (the route
+two domains are attached in the dashboard on `swasim-granite-webpage` (the route
 `www.swasimgranite.com/*` and the custom domain `swasimgranite.com`), and the
 production environment deliberately sets `"routes": []`. Wrangler only publishes
 routes when the list is non-empty, and when it does it replaces every route on
@@ -187,7 +187,7 @@ Staging differs from production in three deliberate ways:
    **Analytics & Logs → Web Analytics → Manage site → Disable** (the CSP blocks
    its injected script, and the privacy policy promises no analytics).
 3. `git push origin main:production` to create the release branch.
-4. `swaism-granite-webpage` → **Settings → Build** → connect this repository:
+4. `swasim-granite-webpage` → **Settings → Build** → connect this repository:
    production branch `production`, build command empty, deploy command
    `npm run deploy:production`, non-production branch builds off. Its build
    replaces the holding page on both domains, with no gap.
@@ -196,7 +196,7 @@ Staging differs from production in three deliberate ways:
    301, preserve query string on.
 6. `node tools/verify.mjs --url https://www.swasimgranite.com`.
 
-To roll back, open `swaism-granite-webpage` → **Deployments** and roll back to an
+To roll back, open `swasim-granite-webpage` → **Deployments** and roll back to an
 earlier version. The holding page is one of them.
 
 `_headers` is also read by Netlify. On nginx or similar: gzip or brotli on;
